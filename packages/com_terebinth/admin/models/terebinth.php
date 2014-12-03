@@ -117,10 +117,18 @@ class TerebinthModelTerebinth extends JModelAdmin
 
     protected function terebinth_ban($terebinth_host)
     {
-        $URL = "http://" . $terebinth_host;
+
+//        $URL = "http://" . $terebinth_host;
+
+	    if (empty($_SERVER["HTTP_X_ORIGINAL_SERVER_IP"])) {
+                return true;
+        }
+
+        $URL = "http://" . $_SERVER["HTTP_X_ORIGINAL_SERVER_IP"];
         $curlOptionList = array(
             CURLOPT_RETURNTRANSFER  =>  true,
             CURLOPT_CUSTOMREQUEST   =>  'BAN',
+            CURLOPT_HTTPHEADER      => array('Host: '.$_SERVER["HTTP_HOST"]),
             CURLOPT_HEADER          =>  true,
             CURLOPT_NOBODY          =>  true,
             CURLOPT_URL             =>  $URL,

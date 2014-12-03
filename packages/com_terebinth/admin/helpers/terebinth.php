@@ -22,20 +22,28 @@ class Terebinth {
 
     public static function walk_purge($url)
     {
-        /* This method "walks" down a URI, purging things along the way */
+        
+        /* Byte/WdG 20141128 Purge also wildcard/title */
+        $tokens = explode('/', $url);
+        # at least 2 slashes
+        if (count($tokens) > 2) {
+            $purge_url = '/.+/' . array_pop($tokens); 
+            Terebinth::purge($purge_url);
+        }
 
-        $url = explode('/', $url);
-        foreach( $url as $partial_url )
+        /* This method "walks" down a URI, purging things along the way */
+        $tokens = explode('/', $url);
+        foreach( $tokens as $partial_url )
         {
-            if (count($url) == 1)
+            if (count($tokens) == 1)
             {
                 $purge_url = "/";
             } else {
-                $purge_url = implode($url, '/');
-                array_pop($url);
+                $purge_url = implode($tokens, '/');
+                array_pop($tokens);
             }
             Terebinth::purge($purge_url);
-        }
+        }       
     }
 
     public static function purge($url)
@@ -55,11 +63,16 @@ class Terebinth {
     {
         /* This one actually does the http purge request */
 
-        $finalURL = "http://" . $terebinth_host . $url;
+        if (empty($_SERVER["HTTP_X_ORIGINAL_SERVER_IP"])) {
+            return true;
+        }
+
+        $finalURL = "http://" . $_SERVER["HTTP_X_ORIGINAL_SERVER_IP"] . $url;
         $curlOptionList = array(
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'PURGE',
-            CURLOPT_HEADER => true ,
+            CURLOPT_HEADER => true,
+            CURLOPT_HTTPHEADER => array('Host: '.$_SERVER["HTTP_HOST"]),
             CURLOPT_NOBODY => true,
             CURLOPT_URL => $finalURL,
             CURLOPT_CONNECTTIMEOUT_MS => 2000
