@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	addrulepath="/administrator/components/com_terebinth/models/rules"
+>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+		/>
+		<field
+			name="terebinth_host"
+			type="text"
+			label="COM_TEREBINTH_TEREBINTH_HOST_LABEL"
+			description="COM_TEREBINTH_TEREBINTH_HOST_DESC"
+			size="40"
+			class="inputbox validate-terebinthhost"
+			validate="terebinthhost"
+			required="true"
+			default=""
+		/>
+	</fieldset>
+</form>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="content">
+    <name>Terebinth Content Plugin</name>
+    <creationDate>August 13, 2013</creationDate>
+    <author>Nicholas Wheeler</author>
+    <authorEmail>nwheeler@devis.com</authorEmail>
+    <copyright>Copyright (C) 2013 - Nicholas Wheeler. ALl rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <version>0.0.2</version>
+    <description>PLG_CONTENT_TEREBINTH_DESCRIPTION</description>
+    <scriptfile>terebinth.scriptfile.php</scriptfile>
+    <files>
+        <filename plugin="terebinth">terebinth.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">en-GB.plg_content_terebinth.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="content" label="PLG_CONTENT_TEREBINTH_PARAM_CONTENT_LABEL">
+                <field name="onContentAfterDelete" type="radio" default="1" label="onContentAfterDelete" description="PLG_CONTENT_TEREBINTH_ENABLE_DELETE">
+                    <option value="1">On</option>
+                    <option value="0">Off</option>
+                </field>
+                <field name="onContentBeforeSave" type="radio" default="1" label="onContentBeforeSave" description="PLG_CONTENT_TEREBINTH_ENABLE_SAVE">
+                    <option value="1">On</option>
+                    <option value="0">Off</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
