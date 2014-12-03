@@ -120,7 +120,7 @@ class TerebinthModelTerebinth extends JModelAdmin
 
 //        $URL = "http://" . $terebinth_host;
 
-	    if (empty($_SERVER["HTTP_X_ORIGINAL_SERVER_IP"])) {
+        if (empty($_SERVER["HTTP_X_ORIGINAL_SERVER_IP"])) {
                 return true;
         }
 
