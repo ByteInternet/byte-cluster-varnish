@@ -1,3 +1,5 @@
+Heb je na het lezen van deze pagina's nog vragen? Stuur een bericht naar support@byte.nl en je krijgt binnen 8 (werk-) uur antwoord.
+
 #### Geen enkele pagina wordt gecached  
 
 Let goed op de response headers, veel frameworks starten standaard een sessie waardoor er een no-cache header terug komt.
