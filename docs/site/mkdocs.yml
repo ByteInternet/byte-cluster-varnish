@@ -1,0 +1,13 @@
+site_name: Byte Varnish Cluster Instructies
+docs_dir: .
+dev_addr: 0.0.0.0:9000
+#~ theme: readthedocs
+pages:
+- [index.md, Intro]
+- [gettingstarted.md, Aan de slag!]
+- [joomla.md, Joomla]
+- [drupal.md, Drupal]
+- [wordpress.md, Wordpress]
+- [mediawiki.md, Mediawiki]
+- [custom.md, Maatwerk]
+- [faq.md, FAQ]
