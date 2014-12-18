@@ -1,0 +1,8 @@
+site_name: Byte Varnish Cluster Instructions
+#~ theme: flatly
+pages:
+- [intro.md, Intro]
+- [joomla.md, Joomla]
+- [drupal.md, Drupal]
+- [wordpress.md, Wordpress]
+- [customcms.md, Custom CMS]
