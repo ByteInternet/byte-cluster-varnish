@@ -1,5 +1,5 @@
 site_name: Byte Varnish Cluster Instructies
-docs_dir: .
+docs_dir: doc
 pages:
 - [intro.md, Intro]
 - [joomla.md, Joomla]
