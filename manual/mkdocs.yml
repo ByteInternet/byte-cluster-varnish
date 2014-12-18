@@ -1,4 +1,4 @@
-site_name: Byte Varnish Cluster Instructions
+site_name: Byte Varnish Cluster Instructies
 #~ theme: flatly
 docs_dir: source
 pages:
@@ -7,3 +7,4 @@ pages:
 - [drupal.md, Drupal]
 - [wordpress.md, Wordpress]
 - [customcms.md, Custom CMS]
+- [faq.md, FAQ]

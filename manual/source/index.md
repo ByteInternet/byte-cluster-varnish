@@ -18,16 +18,23 @@ Wel een technische uitdaging voor onze partners, een goede configuratie is niet 
  
 Met SpeedCluster kun je elke site verschrikkelijk snel maken en hoef je je nooit meer druk te maken over piekbelasting.
 
-# Waarom is het cool?
+### Dus waarom is het cool?
 
-# Voor wie?
+1. Extreme capaciteit voor bezoekerspieken
+1. Sneller, dus blijere bezoekers
+1. Sneller, dus hogere waardering door Google en andere zoekmachines
 
-# Aan de slag, wat kun je verwachten?
+### Voor wie en wat kun je verwachten?
+
+Byte Varnish Cluster is voor iedereen die meer snelheid of capaciteit wil. 
+
+Afhankelijk van de technische kennis kan meer of minder versnelt (gecached) worden. De basisversie is met één klik te activeren en versnelt plaatjes en layout. En met een kleine tijdsinvestering (30 minuten tot enkele uren) is ook dynamische content te cachen, waardoor dus de hele site te versnellen is!
 
 # Hoe werkt het
 
-In de uiteindelijke versie kan de Byte klant uit 3 modi kiezen: 
-1. Cache niets
+In de uiteindelijke versie kan de Byte klant uit vier modi kiezen: 
+
+1. Cache niets (alle cache staat uit)
 1. Cache enkel static assets (plaatjes, css)
 1. Cache intelligent, geoptimaliseerd voor Joomla/Wordpress/Drupal en custom CMS
 1. Cache alles aggressief (in high traffic/load situaties waarbij men niet in de cms backend hoeft) dus negeer alle cookies, expires en cache headers.
@@ -35,10 +42,13 @@ In de uiteindelijke versie kan de Byte klant uit 3 modi kiezen:
 Voor de rest van deze handleiding gaan we uit van modus 3, die voor de meeste mensen van toepassing zal zijn. 
 
 Applicatie = PHP script op de server
+
 Client = Browser 
 
 ## Algemeen 
+
 Er wordt niet gecached in de volgende gevallen:
+
 - POST requests
 - Basic authorization (bijv met behulp van .htaccess)
 - Bestanden die i.h.a. erg groot zijn en daardoor weinig profijt hebben van caching (msi, exe, dmg, zip, tgz, gz, mp3, flv, mov, mp4, mpg, mpeg, avi, dmg, mkv, zip, rar, tar, gz, tar.gz, tar.bz2, flv).
@@ -61,10 +71,14 @@ Er wordt niet gecached in de volgende gevallen:
 	- UserID (mediawiki)
 
 In alle andere gevallen gelden de volgende stappen:
+
 1. Alle Google Analytics gerelateerde parameters worden uit de URL gestripped (die zijn enkel relevant voor de client).
 1. Alle overige binnenkomende cookies worden verwijderd.
 1. De applicatie genereert een antwoord. Indien daar een relevante Cache-Control header in zit, wordt het antwoord niet gecached.
 1. Zonee, dan worden ook daar eventuele cookies van verwijderd. 
 1. Indien het antwoord een Expires of Cache-control header bevat met een TTL in de toekomst, wordt het antwoord in de cache gestopt met deze TTL (maar maximaal 1 dag).
 
+## Valkuilen
+
+.. note:: IP based ACL (deny IP in .htaccess of scripts) werkt niet, omdat die code niet door de cache server wordt uitgevoerd. 
 
