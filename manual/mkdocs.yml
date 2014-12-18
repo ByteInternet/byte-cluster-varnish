@@ -1,5 +1,6 @@
 site_name: Byte Varnish Cluster Instructions
 #~ theme: flatly
+docs_dir: .
 pages:
 - [intro.md, Intro]
 - [joomla.md, Joomla]
