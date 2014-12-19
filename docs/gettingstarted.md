@@ -18,6 +18,8 @@ We hebben hier instructies voor de meest gebruikte webapplicaties verzameld. Als
 
 Uit te werken: hoe gebruik je het "test-IP" om de cache te testen?
 
+Gaat er iets mis met de test? Zie [Maatwerk > hoe te debuggen](custom.md#debuggen) voor hulp.
+
 ## Stap 3: Activeer Varnish
 
 Op het Byte Service Panel kun je uit vier modi kiezen:
