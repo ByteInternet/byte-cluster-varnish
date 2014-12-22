@@ -15,6 +15,11 @@
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../site/site/site/css/base.css" rel="stylesheet">
+        <link href="../site/site/site/css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../site/site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../site/site/site/css/highlight.css" rel="stylesheet">
+        <link href="../site/site/site/css/prettify-1.0.css" rel="stylesheet">
         <link href="../site/site/css/base.css" rel="stylesheet">
         <link href="../site/site/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -87,12 +92,6 @@
                 
                 
                 
-                    <li >
-                        <a href="../mediawiki">Mediawiki</a>
-                    </li>
-                
-                
-                
                     <li class="active">
                         <a href=".">Maatwerk</a>
                     </li>
@@ -113,7 +112,7 @@
                 
                 
                 <li >
-                    <a rel="next" href="../mediawiki">
+                    <a rel="next" href="../wordpress">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
@@ -140,7 +139,7 @@
             <li><a href="#wanneer-wordt-er-gecached">Wanneer wordt er gecached</a></li>
         
     
-        <li class="main "><a href="#werkwijze">Werkwijze</a></li>
+        <li class="main "><a href="#algemene-werkwijze">Algemene werkwijze</a></li>
         
             <li><a href="#stap-1">Stap 1</a></li>
         
@@ -203,7 +202,7 @@
 <li>Zonee, dan worden ook daar eventuele cookies van verwijderd. </li>
 <li>Indien het antwoord een Expires of Cache-control header bevat met een TTL in de toekomst, wordt het antwoord in de cache gestopt met deze TTL (maar maximaal 1 dag).</li>
 </ol>
-<h1 id="werkwijze">Werkwijze</h1>
+<h1 id="algemene-werkwijze">Algemene werkwijze</h1>
 <p>Om Varnish in te zetten als je gebruik maakt van een custom cms moet je een aantal stappen volgen.</p>
 <h4 id="stap-1">Stap 1</h4>
 <p>Zet de intelligente cache aan in het Byte service panel. Pagina's zullen nu waar mogelijk gecached worden.  </p>
@@ -279,8 +278,6 @@ session_cache_limiter(&quot;nocache&quot;); //pagina's mogen niet gecached worde
 <p>Als je access control doet op pagina's op basis van ip zal dit niet meer werken. De pagina's komen immers uit de cache en de gebruiker komt nooit langs een .htaccess. Zorg dus dat je geheime pagina's nooit worden gecached! </p>
 <h4 id="nieuwe-versies-van-bestanden">Nieuwe versies van bestanden</h4>
 <p>Ook statische assets zoals afbeeldingen of css zullen gecached worden door Varnish. Als je bijvoorbeeld een nieuwe versie van je site deployed of een nieuwe versie van een afbeelding wordt geplaatst is het verstandig om ook een cache purge doen. Anders krijgen bezoekers verouderde content te zien.</p>
-<h4 id="toegangscontrol-op-basis-van-ip">Toegangscontrol op basis van IP</h4>
-<p>IP based ACL (deny IP in .htaccess of scripts) werkt niet, omdat die code niet door de cache server wordt uitgevoerd. </p>
 </div>
             
         </div>
@@ -298,6 +295,10 @@ session_cache_limiter(&quot;nocache&quot;); //pagina's mogen niet gecached worde
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
+        <script src="../site/site/site/js/base.js"></script>
+        <script src="../site/site/site/js/bootstrap-3.0.3.min.js"></script>
+        <script src="../site/site/site/js/highlight.pack.js"></script>
+        <script src="../site/site/site/js/prettify-1.0.min.js"></script>
         <script src="../site/site/js/base.js"></script>
         <script src="../site/site/js/bootstrap-3.0.3.min.js"></script>
         <script src="../site/site/js/highlight.pack.js"></script>

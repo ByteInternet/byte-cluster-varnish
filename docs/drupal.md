@@ -1,30 +1,11 @@
-# Introductie
+# Snelle instructies
 
-Bij Byte kun je vanaf het pakket ‘Performance Hosting’ gebruik maken van 
-Varnish. De hostingomgeving van dit pakket, SpeedCluster genaamd, is uitgerust 
-met een loadbalancer (HA proxy) met hierin SSL-afhandeling en Varnish, dus ook 
-https-pagina’s kunnen in de cache opgenomen worden.
+1. Download de speciale [Drupal Varnish module voor Byte](https://raw.githubusercontent.com/ByteInternet/byte-cluster-varnish/master/drupal/byte_purge.zip)
+2. Pak de bestanden uit naar ```sites/all/modules/contrib```
+3. Ga naar de backend van je Drupal site en dan naar Administer \> Modules
+4. Activeer. Klaar! Problemen? Lees verder.
 
-Byte kan meerdere van deze loadbalancers naast elkaar draaien om te schalen. 
-Achter de loadbalancers draait een set webservers (+/- 10), zoals ook bij het 
-‘normale’ Secure Hosting. Files en databases zijn weer afkomstig van 
-onderliggende servers.
-
-# Voordelen
-
-Varnish maakt het mogelijk een pagina zeer snel bij de gebruiker te krijgen, 
-omdat data die in de Varnish cache zit niet meer door het cluster van servers bij 
-elkaar geraapt hoeft te worden. Dit geldt niet alleen voor content op pagina’s, 
-maar kan ook voordeel opleveren bij bijvoorbeeld plaatjes en javascripts. 
-
-Niet alleen het cachen van pagina’s zélf levert snelheidswinst op. Omdat bij een 
-site die met Varnish werkt, minder op de reguliere manier opgevraagd wordt, 
-heeft het cluster veel minder te doen. Een voorzichtige schatting maakt dat 50-
-90% van de hits kunnen worden afgehandeld door Varnish. Dit zal uiteraard ook 
-doorwerken tot de database- en fileservers; deze krijgen ook minder verzoeken 
-en zullen dus sneller zijn.
-
-# Byte Varnish Cluster en Drupal
+# Achtergrond 
 
 Het Byte SpeedCluster is out of the box al geschikt voor Drupal. Varnish neemt de 
 instellingen over zoals die op zijn gegeven op de performance pagina van Drupal: ```http://<url van je site>/admin/config/development/performance```
@@ -54,8 +35,7 @@ De bestaande module [Purge](https://www.drupal.org/project/purge) lijkt vervolge
 samen met de omgeving bij Byte, omdat:
 
 1. Purge [requests sturen over https niet lukt](http://unitstep.net/blog/2009/05/05/using-curl-in-php-to-access-https-ssltls-protected-sites/)
-2. Het standaard niet mogelijk is om gelijktijdig een pagina te purgen van zowel de https en http cache. Er is daarom een variant van deze module ontwikkeld, die genoemde problemen 
-ondervangt. Deze module heet Byte Purge en is te downloaden via https://www.drupal.org/sandbox/jeroensurft/2383697 
+2. Het standaard niet mogelijk is om gelijktijdig een pagina te purgen van zowel de https en http cache. Er is daarom een variant van deze module ontwikkeld, die genoemde problemen ondervangt. Deze module heet Byte Purge en is te downloaden via https://www.drupal.org/sandbox/jeroensurft/2383697 
 
 # Stappenplan
 
@@ -175,7 +155,5 @@ https://www.varnish-software.com/static/book/VCL_Basics.html#the-initial-
 value-of-beresp-ttl
 
 http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
-
-http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/
 
 December 2014, in samenwerking met www.mediagrip.nl

@@ -42,7 +42,7 @@ In alle andere gevallen gelden de volgende stappen:
 1. Indien het antwoord een Expires of Cache-control header bevat met een TTL in de toekomst, wordt het antwoord in de cache gestopt met deze TTL (maar maximaal 1 dag).
 
 
-# Werkwijze
+# Algemene werkwijze
 
 Om Varnish in te zetten als je gebruik maakt van een custom cms moet je een aantal stappen volgen.
 
@@ -167,9 +167,5 @@ Als je access control doet op pagina's op basis van ip zal dit niet meer werken.
 #### Nieuwe versies van bestanden
 
 Ook statische assets zoals afbeeldingen of css zullen gecached worden door Varnish. Als je bijvoorbeeld een nieuwe versie van je site deployed of een nieuwe versie van een afbeelding wordt geplaatst is het verstandig om ook een cache purge doen. Anders krijgen bezoekers verouderde content te zien.
-
-#### Toegangscontrol op basis van IP
-
-IP based ACL (deny IP in .htaccess of scripts) werkt niet, omdat die code niet door de cache server wordt uitgevoerd. 
 
 

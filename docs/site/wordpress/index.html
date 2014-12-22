@@ -15,6 +15,11 @@
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../site/site/site/css/base.css" rel="stylesheet">
+        <link href="../site/site/site/css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../site/site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../site/site/site/css/highlight.css" rel="stylesheet">
+        <link href="../site/site/site/css/prettify-1.0.css" rel="stylesheet">
         <link href="../site/site/css/base.css" rel="stylesheet">
         <link href="../site/site/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -88,12 +93,6 @@
                 
                 
                     <li >
-                        <a href="../mediawiki">Mediawiki</a>
-                    </li>
-                
-                
-                
-                    <li >
                         <a href="../custom">Maatwerk</a>
                     </li>
                 
@@ -118,7 +117,7 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../mediawiki">
+                    <a rel="prev" href="../custom">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -135,17 +134,156 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
+        <li class="main active"><a href="#snelle-instructies">Snelle instructies</a></li>
+        
+    
+        <li class="main "><a href="#achtergrond">Achtergrond</a></li>
+        
+            <li><a href="#plugin-configureren">Plugin configureren</a></li>
+        
+    
+        <li class="main "><a href="#gebruik-je-w3-total-cache">Gebruik je W3 Total Cache?</a></li>
+        
+            <li><a href="#hierarchische-wijzigingen">Hiërarchische wijzigingen</a></li>
+        
+            <li><a href="#url-wijzigingen">URL wijzigingen</a></li>
+        
+            <li><a href="#menu-wijzigingen">Menu wijzigingen</a></li>
+        
+    
+        <li class="main "><a href="#varnish-http-purge">Varnish HTTP Purge</a></li>
+        
+    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<p>Installeer deze plugin: https://wordpress.org/plugins/varnish-http-purge/</p>
-<ul>
-<li>patch: altijd op http verbinden</li>
-<li>zet dit in wp-config.php:</li>
-<li>define('VHP_VARNISH_IP',$_SERVER["HTTP_X_ORIGINAL_SERVER_IP"]);</li>
-</ul>
-<p>Getest met versie 3.5.1. Geen configuratie nodig. </p>
+<h1 id="snelle-instructies">Snelle instructies</h1>
+<ol>
+<li>Download <a href="https://github.com/ByteInternet/byte-cluster-varnish">deze plugin</a> naar je eigen computer.</li>
+<li>Log in op de admin panel van je Wordpress site, ga naar Plugins, voeg toe, en upload de zip file.</li>
+<li>Ga naar de plugin pagina en zoek "Varnish Cache". Activeer deze. </li>
+<li>Klaar! Controleer of alles goed werkt. Bij problemen, lees verder.</li>
+</ol>
+<h1 id="achtergrond">Achtergrond</h1>
+<p>Byte heeft in samenwerking met 42functions hiervoor een eigen plugin
+ontwikkeld. Deze plugin haakt in op de diverse processen binnen
+WordPress en zorgt ervoor dat de cache op de correcte momenten geleegd
+wordt. Denk hierbij aan het wijzigen van berichten, categorieën, widgets
+of andere elementen op de website.</p>
+<p>Indien de plugin correct geactiveerd is zie je een extra menu
+verschijnen in de admin bar. Dit menu, ‘Cache’, kan gebruikt worden om
+de plugin aan te sturen of om te configureren.</p>
+<h2 id="plugin-configureren">Plugin configureren</h2>
+<p>Na het activeren van de plugin is deze gelijk actief. Er wordt een
+standaard configuratie ingeladen welke van toepassing is voor de meeste
+websites. Uiteraard is geen website hetzelfde en het is dan ook aan te
+raden om de configuratie na te lopen nadat de plugin geactiveerd is.</p>
+<p>Je kan de configuratiepagina vinden onder het menu item ‘Cache’ >
+‘Configuration’ in de admin bar. Eenmaal op de configuratiepagina
+aangekomen kan je aangeven welk gedrag de plugin dient te vertonen
+rondom het monitoren van opties, berichten, terms en comments.</p>
+<h3 id="general">General</h3>
+<p>In deze sectie kan je de efficiëntie van de plugin instellen. In sommige
+gevallen wil het wel eens voorkomen dat er een pagina gewijzigd wordt
+welke en grote hoeveelheid onderliggende pagina’s heeft die geleegd
+dienen te worden; denk hierbij aan een archiefpagina. In sommige
+gevallen wordt het legen een grote hoeveelheid pagina's inefficiënt. Het
+is mogelijk een maximum in te stellen, indien dit maximum overschreden
+wordt leegt de plugin automatisch de hele cache.</p>
+<p>Aanvullend hierop zijn veel van de pagina’s die gemonitord worden door
+de plugin gelaagde pagina’s. Dit zijn pagina's met eigen navigatie, zoals categorie of blog overzichten.
+Omdat het in grote installaties kan oplopen tot een
+flink aantal pagina’s kan er daarom een limiet worden ingesteld waarbij
+bijvoorbeeld enkel de cache van de eerste 10 pagina’s geleegd wordt.</p>
+<p>Verder is er het mogelijk om extra opties binnen WordPress te monitoren. Bij veranderde instellingen wordt de cache
+automatisch geleegd.  De plugin kijkt uit zichzelf al vele opties, zoals de permalink structuur, tijdzones en SEO
+instellingen.</p>
+<p>Indien je een nieuwe plugin heb geïnstalleerd die invloed heeft op de
+uitstraling van de website of op de onderliggende technieken (denk
+hierbij aan SEO). Dan is het bijvoorbeeld ook handig dat de cache
+geleegd wordt na het wijzigen van een optie in deze plugin. Dat kan dus
+middels deze extra monitoring optie.</p>
+<h3 id="posts">Posts</h3>
+<p>Berichten zijn de belangrijkste entiteiten op je website. De berichten
+geven je website immers de vorm en inhoud waar je bezoekers naar op zoek
+zijn, deze definiëren je site structuur en bepalen de vindbaarheid van
+je website. Het is dan ook belangrijk dat de juiste cache geleegd wordt
+na het wijzigen van een bericht.</p>
+<p>Middels deze plugin kan je aangeven welke pagina’s, archieven en feeds
+binnen jouw website relevant zijn om te legen na het wijzigen van een
+pagina.</p>
+<p>Onderstaand een afbeelding van alle relaties die een pagina binnen
+WordPress kan hebben. Bij het wijzigen van een pagina is het dan ook
+belangrijk dat deze allemaal gecontroleerd worden en geleegd worden
+indien deze van toepassing zijn.</p>
+<h3 id="terms">Terms</h3>
+<p>"Terms" is de omvattende benaming binnen WordPress welke gebruikt word
+voor categorieën, tags en taxonomieën (eigen categorieën). Deze pagina’s
+dienen doorgaans als een verzamelarchief voor alle onderliggende
+berichten; het is dan ook belangrijk om te definiëren welke pagina’s er
+geleegd moeten worden na een wijziging omtrent terms.</p>
+<p>Voor de terms kan je via de plugin aangeven welke feeds, archieven en
+pagina’s geleegd dienen te worden na het wijzigen van een term.
+Aanvullend hierop kan nog aangegeven worden welke feed types de plugin
+allemaal dient te legen.</p>
+<p>Onderstaand een afbeelding van alle relaties die een term binnen
+WordPress kan hebben. Bij het wijzigen van een erm is het dan ook
+belangrijk dat deze allemaal gecontroleerd worden en geleegd worden
+indien deze van toepassing zijn.</p>
+<h3 id="comments">Comments</h3>
+<p>WordPress kent verschillende soorten comments. Het is niet voor alle comments nodig, om de cache te legen. 
+Hier kan worden ingesteld bij welke comments dit wel moet gebeuren.</p>
+<p>Na het wijzigen van een comment waarvan het type is gemarkeerd in de
+plugin wordt automatisch de cache van de gekoppelde post geleegd.</p>
+<h1 id="gebruik-je-w3-total-cache">Gebruik je W3 Total Cache?</h1>
+<p>W3 Total Cache is een van de meest gebruikte plugins als het gaat om de
+verbetering van de performance op WordPress websites. Deze rijk gevulde
+plugin heeft een scala aan configuratiemogelijkheden waarbij diverse
+caching methodieken op een  website kunnen worden toegepast. Eén van de
+opties die zij hierbij bied is het gebruik van Varnish.</p>
+<p>Hoewel Varnish ook door W3 Total Cache ondersteund wordt is de plugin er
+niet optimaal op afgestemd. Zo zijn er diverse aspecten waarmee de
+plugin geen rekening mee houd.</p>
+<h3 id="hierarchische-wijzigingen">Hiërarchische wijzigingen</h3>
+<p>Op veel websites wordt er gebruik gemaakt van een kruimelpad. Indien men
+de titel of belangrijker, de url,  van een pagina wijzigt dient men niet
+alleen de desbetreffende pagina cache te wijzigen maar ook de cache van
+alle onderliggende pagina’s. Deze cache dient geleegd te worden om
+foutieve links op de onderliggende pagina’s te voorkomen.</p>
+<h3 id="url-wijzigingen">URL wijzigingen</h3>
+<p>In sommige gevallen is het gewenst om de url van een pagina te wijzigen.
+Indien dit voor komt is het belangrijk dat de cache van de ‘oude’ pagina
+geleegd wordt opdat deze niet langer bereikbaar is. W3 Total Cache leegt
+enkel de cache van de ‘nieuwe’ pagina, het gevolg hiervan is dat er op
+dat moment twee versies van de pagina bestaan; dit uiteraard ten nadelen
+van de SEO op de website. Denk hierbij aan de <a href="http://orangevalley.nl/google-panda-update-in-nederland/">Google Panda update</a> die
+dubbele content op de website bestraft.</p>
+<h3 id="menu-wijzigingen">Menu wijzigingen</h3>
+<p>In WordPress kan men direct pagina’s en categorieën invoegen in het
+menu. Bij het wijzigen van bijvoorbeeld een pagina titel of URL wordt
+dan automatisch het menu bijgewerkt. W3 Total Cache erkent deze relaties
+niet, na dergelijke wijzigingen wordt enkel de pagina cache geleegd; dit
+terwijl in dit geval juist de algehele cache geleegd dient te worden.</p>
+<h1 id="varnish-http-purge">Varnish HTTP Purge</h1>
+<p>Een ander veelgebruikte plugin naast W3 Total Cache is de Varnish HTTP
+Purge plugin. In tegenstelling tot W3 Total Cache beperkt deze plugin
+zich enkel tot een caching laag met betrekking tot Varnish.</p>
+<p>Net als onze maatgemaakte oplossing fungeert de HTTP Purge plugin zich
+als een communicatie laag tussen de website en Varnish. De plugin
+monitort specifieke acties welke in de backend plaats vinden en flushed
+vervolgens de bijhorende Varnish cache.</p>
+<p>De HTTP purge plugin is echter een zeer beperkte plugin welke zich in
+een beperkte mate richt op het legen van de cache rondom berichten. De
+plugin beperkt zich enkel tot de basale relaties welke plaats vinden in
+een basis WordPress installatie. Indien er gebruik gemaakt wordt van
+eigen taxonomieën, auteur pagina’s of een aangepaste SEO structuur dan
+schiet de HTTP Purge plugin al snel tekort.</p>
+<p>Deze plugin is gericht op beheerders welke zich ervan bewust zijn
+wanneer zij zelf de cache dienen te legen. Deze beheerders dienen de
+relatie te begrijpen van de wijzigingen welke zij maken en de scoping
+van de pagina’s welke de cache leegt na het uitvoeren van specifieke
+acties.</p>
 </div>
             
         </div>
@@ -163,6 +301,10 @@
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
+        <script src="../site/site/site/js/base.js"></script>
+        <script src="../site/site/site/js/bootstrap-3.0.3.min.js"></script>
+        <script src="../site/site/site/js/highlight.pack.js"></script>
+        <script src="../site/site/site/js/prettify-1.0.min.js"></script>
         <script src="../site/site/js/base.js"></script>
         <script src="../site/site/js/bootstrap-3.0.3.min.js"></script>
         <script src="../site/site/js/highlight.pack.js"></script>

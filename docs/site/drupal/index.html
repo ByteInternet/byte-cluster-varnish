@@ -15,6 +15,11 @@
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../site/site/site/css/base.css" rel="stylesheet">
+        <link href="../site/site/site/css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../site/site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../site/site/site/css/highlight.css" rel="stylesheet">
+        <link href="../site/site/site/css/prettify-1.0.css" rel="stylesheet">
         <link href="../site/site/css/base.css" rel="stylesheet">
         <link href="../site/site/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -88,12 +93,6 @@
                 
                 
                     <li >
-                        <a href="../mediawiki">Mediawiki</a>
-                    </li>
-                
-                
-                
-                    <li >
                         <a href="../custom">Maatwerk</a>
                     </li>
                 
@@ -135,13 +134,10 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#introductie">Introductie</a></li>
+        <li class="main active"><a href="#snelle-instructies">Snelle instructies</a></li>
         
     
-        <li class="main "><a href="#voordelen">Voordelen</a></li>
-        
-    
-        <li class="main "><a href="#byte-varnish-cluster-en-drupal">Byte Varnish Cluster en Drupal</a></li>
+        <li class="main "><a href="#achtergrond">Achtergrond</a></li>
         
     
         <li class="main "><a href="#stappenplan">Stappenplan</a></li>
@@ -154,7 +150,7 @@
             <li><a href="#alle-cache-clearen">Alle cache clearen</a></li>
         
     
-        <li class="main "><a href="#achtergrond">Achtergrond</a></li>
+        <li class="main "><a href="#achtergrond_1">Achtergrond</a></li>
         
             <li><a href="#vary">Vary</a></li>
         
@@ -169,27 +165,14 @@
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="introductie">Introductie</h1>
-<p>Bij Byte kun je vanaf het pakket ‘Performance Hosting’ gebruik maken van 
-Varnish. De hostingomgeving van dit pakket, SpeedCluster genaamd, is uitgerust 
-met een loadbalancer (HA proxy) met hierin SSL-afhandeling en Varnish, dus ook 
-https-pagina’s kunnen in de cache opgenomen worden.</p>
-<p>Byte kan meerdere van deze loadbalancers naast elkaar draaien om te schalen. 
-Achter de loadbalancers draait een set webservers (+/- 10), zoals ook bij het 
-‘normale’ Secure Hosting. Files en databases zijn weer afkomstig van 
-onderliggende servers.</p>
-<h1 id="voordelen">Voordelen</h1>
-<p>Varnish maakt het mogelijk een pagina zeer snel bij de gebruiker te krijgen, 
-omdat data die in de Varnish cache zit niet meer door het cluster van servers bij 
-elkaar geraapt hoeft te worden. Dit geldt niet alleen voor content op pagina’s, 
-maar kan ook voordeel opleveren bij bijvoorbeeld plaatjes en javascripts. </p>
-<p>Niet alleen het cachen van pagina’s zélf levert snelheidswinst op. Omdat bij een 
-site die met Varnish werkt, minder op de reguliere manier opgevraagd wordt, 
-heeft het cluster veel minder te doen. Een voorzichtige schatting maakt dat 50-
-90% van de hits kunnen worden afgehandeld door Varnish. Dit zal uiteraard ook 
-doorwerken tot de database- en fileservers; deze krijgen ook minder verzoeken 
-en zullen dus sneller zijn.</p>
-<h1 id="byte-varnish-cluster-en-drupal">Byte Varnish Cluster en Drupal</h1>
+<h1 id="snelle-instructies">Snelle instructies</h1>
+<ol>
+<li>Download de speciale <a href="https://raw.githubusercontent.com/ByteInternet/byte-cluster-varnish/master/drupal/byte_purge.zip">Drupal Varnish module voor Byte</a></li>
+<li>Pak de bestanden uit naar <code>sites/all/modules/contrib</code></li>
+<li>Ga naar de backend van je Drupal site en dan naar Administer > Modules</li>
+<li>Activeer. Klaar! Problemen? Lees verder.</li>
+</ol>
+<h1 id="achtergrond">Achtergrond</h1>
 <p>Het Byte SpeedCluster is out of the box al geschikt voor Drupal. Varnish neemt de 
 instellingen over zoals die op zijn gegeven op de performance pagina van Drupal: <code>http://&lt;url van je site&gt;/admin/config/development/performance</code></p>
 <p>De pagina’s worden bij het opvragen in de cache opgenomen en gedurende de 
@@ -213,8 +196,7 @@ gebruiken.</p>
 samen met de omgeving bij Byte, omdat:</p>
 <ol>
 <li>Purge <a href="http://unitstep.net/blog/2009/05/05/using-curl-in-php-to-access-https-ssltls-protected-sites/">requests sturen over https niet lukt</a></li>
-<li>Het standaard niet mogelijk is om gelijktijdig een pagina te purgen van zowel de https en http cache. Er is daarom een variant van deze module ontwikkeld, die genoemde problemen 
-ondervangt. Deze module heet Byte Purge en is te downloaden via https://www.drupal.org/sandbox/jeroensurft/2383697 </li>
+<li>Het standaard niet mogelijk is om gelijktijdig een pagina te purgen van zowel de https en http cache. Er is daarom een variant van deze module ontwikkeld, die genoemde problemen ondervangt. Deze module heet Byte Purge en is te downloaden via https://www.drupal.org/sandbox/jeroensurft/2383697 </li>
 </ol>
 <h1 id="stappenplan">Stappenplan</h1>
 <p><strong>1. Code clonen</strong></p>
@@ -259,7 +241,7 @@ gevolgen voor de performance kan hebben. </p>
 dit door een Drupal rule aan deze actie te koppelen en dan /* op te geven voor de 
 urls die gepurged moeten worden. Overigens komt deze functionaliteit ook via 
 het Byte servicepaneel beschikbaar.</p>
-<h1 id="achtergrond">Achtergrond</h1>
+<h1 id="achtergrond_1">Achtergrond</h1>
 <h4 id="vary">Vary</h4>
 <p>Met de “Vary” response header kan je er voor zorgen dat reverse proxies (zoals 
 Varnish) meerdere variaties van een pagina bijhouden.</p>
@@ -300,7 +282,6 @@ toevoegt dan zal Varnish deze waarde nemen voor de cache.</p>
 <p>https://www.varnish-software.com/static/book/VCL_Basics.html#the-initial-
 value-of-beresp-ttl</p>
 <p>http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html</p>
-<p>http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/</p>
 <p>December 2014, in samenwerking met www.mediagrip.nl</p>
 </div>
             
@@ -319,6 +300,10 @@ value-of-beresp-ttl</p>
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
+        <script src="../site/site/site/js/base.js"></script>
+        <script src="../site/site/site/js/bootstrap-3.0.3.min.js"></script>
+        <script src="../site/site/site/js/highlight.pack.js"></script>
+        <script src="../site/site/site/js/prettify-1.0.min.js"></script>
         <script src="../site/site/js/base.js"></script>
         <script src="../site/site/js/bootstrap-3.0.3.min.js"></script>
         <script src="../site/site/js/highlight.pack.js"></script>

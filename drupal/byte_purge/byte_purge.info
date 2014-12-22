@@ -1,0 +1,7 @@
+name = Byte purge
+description = Purges urls from Byte's Varnish.
+package = Performance and scalability
+core = 7.x
+dependencies[] = expire
+
+files [] = byte_purge.module

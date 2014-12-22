@@ -8,6 +8,6 @@ pages:
 - [joomla.md, Joomla]
 - [drupal.md, Drupal]
 - [wordpress.md, Wordpress]
-- [mediawiki.md, Mediawiki]
+#~ - [mediawiki.md, Mediawiki]
 - [custom.md, Maatwerk]
 - [faq.md, FAQ]

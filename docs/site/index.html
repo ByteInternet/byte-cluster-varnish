@@ -15,6 +15,11 @@
         <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="./css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="./css/highlight.css">
+        <link href="./site/site/site/css/base.css" rel="stylesheet">
+        <link href="./site/site/site/css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="./site/site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="./site/site/site/css/highlight.css" rel="stylesheet">
+        <link href="./site/site/site/css/prettify-1.0.css" rel="stylesheet">
         <link href="./site/site/css/base.css" rel="stylesheet">
         <link href="./site/site/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="./site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -88,12 +93,6 @@
                 
                 
                     <li >
-                        <a href="mediawiki/">Mediawiki</a>
-                    </li>
-                
-                
-                
-                    <li >
                         <a href="custom/">Maatwerk</a>
                     </li>
                 
@@ -162,6 +161,24 @@
 <h3 id="voor-wie-en-wat-kun-je-verwachten">Voor wie en wat kun je verwachten?</h3>
 <p>Byte Varnish Cluster is voor iedereen die meer snelheid of capaciteit wil. </p>
 <p>Afhankelijk van je technische kennis kun je meer of minder laten cachen. De simpele versie is met één klik te activeren en versnelt plaatjes en layout. En met een kleine tijdsinvestering (30 minuten tot enkele uren) is ook dynamische content te cachen, waardoor dus de hele site supersnel draait!</p>
+<p>Bij Byte kun je vanaf het pakket ‘Performance Hosting’ gebruik maken van 
+Varnish. De hostingomgeving van dit pakket, SpeedCluster genaamd, is uitgerust 
+met een loadbalancer (HA proxy) met hierin SSL-afhandeling en Varnish, dus ook 
+https-pagina’s kunnen in de cache opgenomen worden.</p>
+<p>Byte kan meerdere van deze loadbalancers naast elkaar draaien om te schalen. 
+Achter de loadbalancers draait een set webservers (+/- 10), zoals ook bij het 
+‘normale’ Secure Hosting. Files en databases zijn weer afkomstig van 
+onderliggende servers.</p>
+<p>Varnish maakt het mogelijk een pagina zeer snel bij de gebruiker te krijgen, 
+omdat data die in de Varnish cache zit niet meer door het cluster van servers bij 
+elkaar geraapt hoeft te worden. Dit geldt niet alleen voor content op pagina’s, 
+maar kan ook voordeel opleveren bij bijvoorbeeld plaatjes en javascripts. </p>
+<p>Niet alleen het cachen van pagina’s zélf levert snelheidswinst op. Omdat bij een 
+site die met Varnish werkt, minder op de reguliere manier opgevraagd wordt, 
+heeft het cluster veel minder te doen. Een voorzichtige schatting maakt dat 50-
+90% van de hits kunnen worden afgehandeld door Varnish. Dit zal uiteraard ook 
+doorwerken tot de database- en fileservers; deze krijgen ook minder verzoeken 
+en zullen dus sneller zijn.</p>
 </div>
             
         </div>
@@ -179,6 +196,10 @@
         <script src="./js/prettify-1.0.min.js"></script>
         <script src="./js/highlight.pack.js"></script>
         <script src="./js/base.js"></script>
+        <script src="./site/site/site/js/base.js"></script>
+        <script src="./site/site/site/js/bootstrap-3.0.3.min.js"></script>
+        <script src="./site/site/site/js/highlight.pack.js"></script>
+        <script src="./site/site/site/js/prettify-1.0.min.js"></script>
         <script src="./site/site/js/base.js"></script>
         <script src="./site/site/js/bootstrap-3.0.3.min.js"></script>
         <script src="./site/site/js/highlight.pack.js"></script>

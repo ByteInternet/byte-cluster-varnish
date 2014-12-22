@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * Purge clears url's from reverse proxy caches like Varnish and Squid by issuing HTTP PURGE requests.
+ */
+function byte_purge_form_alter(&$form, &$form_state, $form_id){
+  if($form_id == 'system_performance_settings'){
+    $period = drupal_map_assoc(array(0, 60, 180, 300, 600, 900, 1800, 2700, 3600, 10800, 21600, 32400, 43200, 86400), 'format_interval');
+    
+    $form['caching']['varnish_cache_maximum_age'] = array(
+      '#type' => 'select',
+      '#title' => t('Varnish expiration'),
+      '#default_value' => variable_get('varnish_cache_maximum_age', 0),
+      '#options' => $period,
+      '#description' => t('The maximum time an external cache can use be served from Varnish'),
+    );
+  }
+}
+
+/**
+ * Implements hook_page_delivery_callback_alter
+ */
+function byte_purge_page_delivery_callback_alter(){
+  global $user;
+  
+  //Check if user is not logged in and caching is enabled
+  if($user->uid == 0 && variable_get('cache', 0)){
+
+    //Set cache-control header with s-maxage
+    $max_age = variable_get('page_cache_maximum_age', 0);
+    $s_maxage = variable_get('varnish_cache_maximum_age', 0);
+  
+    drupal_add_http_header('Cache-Control', 'public, max-age=' . $max_age . ', s-maxage=' . $s_maxage);
+  }
+}
+
+/**
+ * Implements hook_expire_cache().
+ *
+ * Takes an array from expire.module and issues purges.
+ */
+function byte_purge_expire_cache($expire_urls) {
+  $_expire_urls = array();
+  
+  if(!variable_get('expire_include_base_url',FALSE)){
+    foreach($expire_urls as $expire_url){
+      $_expire_urls[] = 'http://'.$_SERVER['HTTP_HOST'].'/'.$expire_url;
+    }
+  }else{
+    $_expire_urls = $expire_urls;
+  }
+  
+  foreach($_expire_urls as $expire_url){
+    byte_purge_url($expire_url);
+  }
+}
+
+/**
+ * Purge url from byte
+ */
+function byte_purge_url($expire_url){
+  ob_start();
+  
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PURGE");
+  curl_setopt($curl, CURLOPT_URL, $expire_url);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($curl, CURLOPT_HEADER, 1);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, array("Host: ".$_SERVER['HTTP_HOST']));
+  
+  //Needed for SSL
+  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+  
+  $output = curl_exec($curl);
+  
+  curl_close($curl);
+  
+  ob_end_clean();
+  
+  watchdog(
+    'byte_purge',
+    '!$expire_url has been successfully purged from the reverse proxy caches: !$purge_success_log',
+    array('!$purge_success_log' => $output, '!$expire_url' => $expire_url)
+  );
+}

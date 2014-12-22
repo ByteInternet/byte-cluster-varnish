@@ -15,6 +15,11 @@
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../site/site/site/css/base.css" rel="stylesheet">
+        <link href="../site/site/site/css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../site/site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../site/site/site/css/highlight.css" rel="stylesheet">
+        <link href="../site/site/site/css/prettify-1.0.css" rel="stylesheet">
         <link href="../site/site/css/base.css" rel="stylesheet">
         <link href="../site/site/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -88,12 +93,6 @@
                 
                 
                     <li >
-                        <a href="../mediawiki">Mediawiki</a>
-                    </li>
-                
-                
-                
-                    <li >
                         <a href="../custom">Maatwerk</a>
                     </li>
                 
@@ -139,11 +138,13 @@
         
             <li><a href="#stap-1-leer-hoe-het-werkt">Stap 1: Leer hoe het werkt</a></li>
         
-            <li><a href="#stap-2-installeer-benodigde-software">Stap 2: Installeer benodigde software</a></li>
+            <li><a href="#stap-2-controleer-geschiktheid">Stap 2: Controleer geschiktheid</a></li>
         
-            <li><a href="#stap-4-testen">Stap 4: Testen</a></li>
+            <li><a href="#stap-3-installeer-benodigde-software">Stap 3: Installeer benodigde software</a></li>
         
-            <li><a href="#stap-3-activeer-varnish">Stap 3: Activeer Varnish</a></li>
+            <li><a href="#stap-4-test-de-nieuwe-software">Stap 4: Test de nieuwe software</a></li>
+        
+            <li><a href="#stap-5-activeer-varnish-en-laat-je-concurrenten-ver-achter-je">Stap 5: Activeer Varnish en laat je concurrenten ver achter je</a></li>
         
     
     </ul>
@@ -153,14 +154,24 @@
 <h1 id="aan-de-slag">Aan de slag</h1>
 <p>Nog even en je site is sneller dan 99% van het internet. Dat voelt goed, toch? Om daar te komen, moet je een paar dingen doen. </p>
 <h2 id="stap-1-leer-hoe-het-werkt">Stap 1: Leer hoe het werkt</h2>
-<p>Varnish zit tussen jouw website en je bezoeker. Varnish bewaart content in een cache en kan deze tot 100x sneller naar je bezoekers sturen, dan een normale webserver zou doen.</p>
-<p>Dat klinkt makkelijk. Maar let op, er zit natuurlijk een addertje onder het gras. Niet alle content is geschikt om gecached te worden, zoals bijvoorbeeld gepersonaliseerde of geheime pagina's. In veel gevallen wordt dit door het Byte Varnish Cluster juist gedetecteerd. In sommige gevallen moet je zelf extra instructies geven. We raden dus altijd aan om eerst goed te testen voordat je Varnish activeert!</p>
-<h2 id="stap-2-installeer-benodigde-software">Stap 2: Installeer benodigde software</h2>
-<p>De meeste webapplicaties hebben een extra module nodig om correct te kunnen werken. Die zorgt voor twee dingen: allereerst dat de geproduceerde pagina's worden aangemerkt als cache-baar. En ten tweede, dat wanneer de content wijzigt (bijvoorbeeld in de backend) ook de bijbehorende gecachete versie wordt bijgewerkt.</p>
-<p>We hebben hier instructies voor de meest gebruikte webapplicaties verzameld. Als je meer exotische software gebruikt, zul je zelf op zoek moeten naar een Varnish module, of er zelf een maken. Zie hiervoor onze <a href="../custom">maatwerk instructies</a>.</p>
-<h2 id="stap-4-testen">Stap 4: Testen</h2>
-<p>Uit te werken: hoe gebruik je het "test-IP" om de cache te testen?</p>
-<h2 id="stap-3-activeer-varnish">Stap 3: Activeer Varnish</h2>
+<p>Varnish zit tussen jouw website en je bezoeker. Varnish bewaart content in een cache en kan deze tot 100x sneller naar je bezoekers sturen.</p>
+<p>Dat klinkt mooi! Maar let op, er zit natuurlijk een addertje onder het gras. Niet alle content is geschikt om gecached te worden, zoals bijvoorbeeld gepersonaliseerde of geheime pagina's. In veel gevallen wordt dit door het Byte Varnish Cluster juist gedetecteerd. In sommige gevallen moet je zelf extra instructies geven. We raden dus altijd aan om eerst goed te testen voordat je Varnish activeert!</p>
+<p>Om aan de slag te gaan met Varnish, is het erg handig om de HTTP headers te kunnen inzien. Het makkelijkst is om Chrome te gebruiken, dan de Developer Tools te activeren (<code>F12</code> op Windows, <code>Cmd+Opt+i</code> op Mac). Klik op tabblad <code>Network</code>. Refresh (<code>F5</code>) je site. Klik op het eerste request. Klik rechts op mini-tabblad <code>Headers</code>. Hier zie je wat er heen en weer wordt gestuurd tussen jouw browser en de server. <a href="http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/">Meer weten over HTTP headers</a>?</p>
+<h2 id="stap-2-controleer-geschiktheid">Stap 2: Controleer geschiktheid</h2>
+<p>Controleer of je site uberhaupt geschikt is voor caching. In de headers die de server terugstuurt (zie hierboven) mag <em>niet</em> <code>Cache-control: no-cache</code> of <code>Cache-control: private</code> voorkomen. Gebeurt dit wel, dan is er een aantal mogelijke oorzaken:</p>
+<ol>
+<li>Je bent ingelogd op de backend van je site en daardoor kan er niet gecached worden. Probeer het opnieuw, maar dan zonder cookies (gebruik een "Incognito" venster met Ctrl-Shift-N). Immers, de meeste bezoekers van je site zullen <em>niet</em> ingelogd zijn.</li>
+<li>Een externe module van je site gebruikt <code>session_start()</code> van PHP. Deze genereert sowieso een <code>Cache-control: no-cache</code> header. Oplossing: verwijder de module, pas de module aan, of installeer een extra module die de Cache-control header weer (dynamisch) verwijdert. Voor Joomla is sowieso een extra module vereist, zie de instructies verderop.</li>
+<li>Er is een <code>.htaccess</code> geinstalleerd die een extra header genereert. Kijk of je deze kunt omschrijven.</li>
+</ol>
+<h2 id="stap-3-installeer-benodigde-software">Stap 3: Installeer benodigde software</h2>
+<p>De meeste webapplicaties hebben een extra module nodig om correct te kunnen werken. Die zorgt voor twee dingen: allereerst dat de geproduceerde pagina's worden aangemerkt als geschikt voor caching. En ten tweede, dat wanneer de content wijzigt (bijvoorbeeld in de backend) ook de bijbehorende cache-versie wordt bijgewerkt.</p>
+<p>We hebben hier instructies voor de meest gebruikte webapplicaties verzameld: <a href="../wordpress">Wordpress</a>, <a href="../drupal">Drupal</a> en <a href="../joomla">Joomla</a>. Als je meer exotische software gebruikt, zul je zelf op zoek moeten naar een Varnish module, of er zelf een maken. Zie hiervoor onze <a href="../custom">maatwerk instructies</a>.</p>
+<h2 id="stap-4-test-de-nieuwe-software">Stap 4: Test de nieuwe software</h2>
+<p>Wanneer je site op een Byte Varnish Cluster staat, kun je eenvoudig de werking van Varnish testen, zonder dat je wijzigingen direct voor de hele wereld hoeft door te voeren. Hiervoor heb je nodig: het <strong>test IP</strong>, te vinden op het Service Panel. Op het test IP is altijd Varnish actief (in de door jou gekozen modus, zie hieronder). </p>
+<p>Je kunt zorgen dat je eigen browser de DNS negeert en het test IP gebruikt, met behulp van <a href="https://www.byte.nl/wiki/DNS#DNS_Caching">een lokaal hosts bestand</a>.</p>
+<p>Gaat er iets mis met de test? Zie <a href="../custom#debuggen">Maatwerk &gt; hoe te debuggen</a> voor hulp.</p>
+<h2 id="stap-5-activeer-varnish-en-laat-je-concurrenten-ver-achter-je">Stap 5: Activeer Varnish en laat je concurrenten ver achter je</h2>
 <p>Op het Byte Service Panel kun je uit vier modi kiezen:</p>
 <ol>
 <li>Cache niets (alle cache staat uit)</li>
@@ -187,6 +198,10 @@
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
+        <script src="../site/site/site/js/base.js"></script>
+        <script src="../site/site/site/js/bootstrap-3.0.3.min.js"></script>
+        <script src="../site/site/site/js/highlight.pack.js"></script>
+        <script src="../site/site/site/js/prettify-1.0.min.js"></script>
         <script src="../site/site/js/base.js"></script>
         <script src="../site/site/js/bootstrap-3.0.3.min.js"></script>
         <script src="../site/site/js/highlight.pack.js"></script>

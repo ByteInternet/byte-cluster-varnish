@@ -4,23 +4,35 @@ Nog even en je site is sneller dan 99% van het internet. Dat voelt goed, toch? O
 
 ## Stap 1: Leer hoe het werkt
 
-Varnish zit tussen jouw website en je bezoeker. Varnish bewaart content in een cache en kan deze tot 100x sneller naar je bezoekers sturen, dan een normale webserver zou doen.
+Varnish zit tussen jouw website en je bezoeker. Varnish bewaart content in een cache en kan deze tot 100x sneller naar je bezoekers sturen.
 
-Dat klinkt makkelijk. Maar let op, er zit natuurlijk een addertje onder het gras. Niet alle content is geschikt om gecached te worden, zoals bijvoorbeeld gepersonaliseerde of geheime pagina's. In veel gevallen wordt dit door het Byte Varnish Cluster juist gedetecteerd. In sommige gevallen moet je zelf extra instructies geven. We raden dus altijd aan om eerst goed te testen voordat je Varnish activeert!
+Dat klinkt mooi! Maar let op, er zit natuurlijk een addertje onder het gras. Niet alle content is geschikt om gecached te worden, zoals bijvoorbeeld gepersonaliseerde of geheime pagina's. In veel gevallen wordt dit door het Byte Varnish Cluster juist gedetecteerd. In sommige gevallen moet je zelf extra instructies geven. We raden dus altijd aan om eerst goed te testen voordat je Varnish activeert!
 
-## Stap 2: Installeer benodigde software
+Om aan de slag te gaan met Varnish, is het erg handig om de HTTP headers te kunnen inzien. Het makkelijkst is om Chrome te gebruiken, dan de Developer Tools te activeren (```F12``` op Windows, ```Cmd+Opt+i``` op Mac). Klik op tabblad ```Network```. Refresh (```F5```) je site. Klik op het eerste request. Klik rechts op mini-tabblad ```Headers```. Hier zie je wat er heen en weer wordt gestuurd tussen jouw browser en de server. [Meer weten over HTTP headers](http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/)?
 
-De meeste webapplicaties hebben een extra module nodig om correct te kunnen werken. Die zorgt voor twee dingen: allereerst dat de geproduceerde pagina's worden aangemerkt als cache-baar. En ten tweede, dat wanneer de content wijzigt (bijvoorbeeld in de backend) ook de bijbehorende gecachete versie wordt bijgewerkt.
+## Stap 2: Controleer geschiktheid
 
-We hebben hier instructies voor de meest gebruikte webapplicaties verzameld. Als je meer exotische software gebruikt, zul je zelf op zoek moeten naar een Varnish module, of er zelf een maken. Zie hiervoor onze [maatwerk instructies](custom.md).
+Controleer of je site uberhaupt geschikt is voor caching. In de headers die de server terugstuurt (zie hierboven) mag *niet* ```Cache-control: no-cache``` of ```Cache-control: private``` voorkomen. Gebeurt dit wel, dan is er een aantal mogelijke oorzaken:
 
-## Stap 4: Testen
+1. Je bent ingelogd op de backend van je site en daardoor kan er niet gecached worden. Probeer het opnieuw, maar dan zonder cookies (gebruik een "Incognito" venster met Ctrl-Shift-N). Immers, de meeste bezoekers van je site zullen _niet_ ingelogd zijn.
+2. Een externe module van je site gebruikt ```session_start()``` van PHP. Deze genereert sowieso een ```Cache-control: no-cache``` header. Oplossing: verwijder de module, pas de module aan, of installeer een extra module die de Cache-control header weer (dynamisch) verwijdert. Voor Joomla is sowieso een extra module vereist, zie de instructies verderop.
+3. Er is een ```.htaccess``` geinstalleerd die een extra header genereert. Kijk of je deze kunt omschrijven.
 
-Uit te werken: hoe gebruik je het "test-IP" om de cache te testen?
+## Stap 3: Installeer benodigde software
+
+De meeste webapplicaties hebben een extra module nodig om correct te kunnen werken. Die zorgt voor twee dingen: allereerst dat de geproduceerde pagina's worden aangemerkt als geschikt voor caching. En ten tweede, dat wanneer de content wijzigt (bijvoorbeeld in de backend) ook de bijbehorende cache-versie wordt bijgewerkt.
+
+We hebben hier instructies voor de meest gebruikte webapplicaties verzameld: [Wordpress](wordpress.md), [Drupal](drupal.md) en [Joomla](joomla.md). Als je meer exotische software gebruikt, zul je zelf op zoek moeten naar een Varnish module, of er zelf een maken. Zie hiervoor onze [maatwerk instructies](custom.md).
+
+## Stap 4: Test de nieuwe software
+
+Wanneer je site op een Byte Varnish Cluster staat, kun je eenvoudig de werking van Varnish testen, zonder dat je wijzigingen direct voor de hele wereld hoeft door te voeren. Hiervoor heb je nodig: het **test IP**, te vinden op het Service Panel. Op het test IP is altijd Varnish actief (in de door jou gekozen modus, zie hieronder). 
+
+Je kunt zorgen dat je eigen browser de DNS negeert en het test IP gebruikt, met behulp van [een lokaal hosts bestand](https://www.byte.nl/wiki/DNS#DNS_Caching).
 
 Gaat er iets mis met de test? Zie [Maatwerk > hoe te debuggen](custom.md#debuggen) voor hulp.
 
-## Stap 3: Activeer Varnish
+## Stap 5: Activeer Varnish en laat je concurrenten ver achter je
 
 Op het Byte Service Panel kun je uit vier modi kiezen:
 
