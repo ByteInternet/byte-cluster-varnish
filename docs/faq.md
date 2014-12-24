@@ -43,7 +43,7 @@ Je zou de relevante URLs kunnen her-routeren met een RewriteRule, zodat ze bijvo
 
 #### Hoe stel ik een TTL in voor specifieke URLs?
 
-Geef via “cache-control” headers een max-age of s-maxage mee.  
+Geef via "cache-control" headers een max-age of s-maxage mee.  
 
 #### Kan iedereen een purge request sturen naar mijn site?
 
@@ -52,3 +52,7 @@ Ja, maar deze zullen genegeerd worden. Alleen interne purge requests (van hetzel
 #### Werkt Varnish ook met subdomeinen?
 
 Nee, enkel "www.domein" en "domein" kunnen worden gecached. Andere subdomeinen werken wel, maar worden niet gecached. Het is wel weer mogelijk indien er een apart hostingpakket voor een subdomein wordt aangevraagd.
+
+#### Werkt Varnish ook met Presence accounts?
+
+Ja!
