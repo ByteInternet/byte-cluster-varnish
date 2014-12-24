@@ -48,3 +48,7 @@ Geef via “cache-control” headers een max-age of s-maxage mee.
 #### Kan iedereen een purge request sturen naar mijn site?
 
 Ja, maar deze zullen genegeerd worden. Alleen interne purge requests (van hetzelfde cluster) zullen afgehandeld worden en er voor zorgen dat de cache geleegd wordt.
+
+#### Werkt Varnish ook met subdomeinen?
+
+Nee, enkel "www.domein" en "domein" kunnen worden gecached. Andere subdomeinen werken wel, maar worden niet gecached. Het is wel weer mogelijk indien er een apart hostingpakket voor een subdomein wordt aangevraagd.

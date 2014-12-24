@@ -1,0 +1,307 @@
+<?php
+/**
+ * @author Ferdy Perdaan
+ * @version 1.0
+ *
+ * Render our combined admin page
+ */
+
+$opt = XLII_Cache_Manager::option();
+
+?>
+
+<style type = "text/css">
+.wp-admin .hndle .status { float: right; cursor: pointer; margin-right: 10px;  }
+
+.wp-admin .hndle .status input { margin-top: 2px; }
+.wp-admin .hndle .status label:after { color: #a00; content: '<?php _e('Disabled', 'xlii-cache'); ?>'; }
+.wp-admin .hndle .status input:checked + label:after { color: green; content: '<?php _e('Enabled', 'xlii-cache'); ?>'; }
+</style>
+
+<script type = "text/javascript">
+
+window.jQuery(function( $ ) {
+	$(document).on('change', '.wp-admin .hndle .status input', function(){
+		$(this).parents('.hndle')
+					.siblings('.inside')
+					.css('opacity', $(this).is(':checked') ? 1 : 0.5)
+	})
+	
+	$('.wp-admin .hndle .status input').trigger('change')
+	
+	
+	$(document).on('click', '.handlediv', function(){
+		$(this).parent().toggleClass('closed')
+	})
+})
+
+</script>
+<div class = "wrap meta-box-sortables">
+	<form method="post">
+		<h2><?php _e('Purge configuration', 'xlii-cache'); ?></h2>
+	
+		<div class="metabox-holder">
+	
+	
+	        <?php echo $this->_metaboxHeader(__('General', 'xlii-cache')); ?>
+	        <table class="form-table">
+	            <tr>
+	                <th>
+						<label for = "general-flushing"><?php _e('Limit flushing', 'xlii-cache'); ?></label>
+	                </th>
+					<td>
+						<input type = "text" id = "general-flushing" name = "general[flushing]" value = "<?php echo !empty($opt['general']['flushing']) ? $opt['general']['flushing'] : ''; ?>" />
+						<p class = "description"><small><?php _e('Automaticly flush the entire cache if the url count exceeds the specified maximum, leave blanc to ignore.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	            <tr>
+	                <th>
+						<label for = "general-pagination"><?php _e('Limit pagination', 'xlii-cache'); ?></label>
+	                </th>
+					<td>
+						<input type = "text" id = "general-pagination" name = "general[pagination]" value = "<?php echo $opt['general']['pagination']; ?>" />
+						<p class = "description"><small><?php _e('Limit the maximum page within pagination based urls. Fewer pages preform better for under-powered servers.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	            <tr>
+	                <th>
+						<label for = "options-additional"><?php _e('Options', 'xlii-cache'); ?></label>
+	                </th>
+					<td>
+						<textarea cols = "80" rows = "5" name = "options[additional]" id = "post-additional"><?php echo isset($opt['options']['additional']) ? esc_textarea(implode("\n", $opt['options']['additional'])) : ''; ?></textarea>
+						<p class = "description"><small><?php _e('Flush the entire cache upon changes within the specified options. Please specify one option per line.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	        </table>
+
+	        <?php echo $this->_metaboxFooter();
+	
+		
+			$title  = __('Purge policy - posts', 'xlii-cache');
+			$title .= '<span class = "status"><input type = "checkbox" name = "post[enabled]" id = "post-enable" value = "1" ' . checked(true, XLII_Cache_Manager::option('post.enabled'), false) . ' />' .
+						'<label for = "post-enable"></label>' .
+					  '</span>';
+	
+	
+	        echo $this->_metaboxHeader($title); ?>
+	        <table class="form-table">
+	            <tr>
+	                <th>
+						<?php _e('Purge', 'xlii-cache'); ?>
+	                </th>
+					<td>
+						<ul>
+						<?php
+							$options = array(
+								'feed.comment' => __('Comment feed', 'xlii-cache'),
+								'archive.daily' => __('Daily archive pages', 'xlii-cache'),
+								'post.comment' => __('Post comment pages', 'xlii-cache'),
+								
+								'feed.author' => __('Author feed', 'xlii-cache'),
+								'archive.monthly' => __('Monthly archive pages', 'xlii-cache'),
+								'post.author' => __('Post author pages', 'xlii-cache'),
+								
+								'feed.terms' => __('Term feed', 'xlii-cache'),
+								'archive.yearly' => __('Yearly archive pages', 'xlii-cache'),
+								'post.term' => __('Post term pages', 'xlii-cache'),
+								
+								'feed.blog' => __('Blog feed', 'xlii-cache'),
+								'global.front' => __('Front page', 'xlii-cache'),
+								'global.posts' => __('Posts page', 'xlii-cache'),
+								
+								'feed.postarchive' => __('Posttype archive feed', 'xlii-cache'),
+								'post.archive' => __('Posttype archive', 'xlii-cache'),
+								'global.all' => __('General cache', 'xlii-cache'),
+								
+								'archive.term' => __('Term archives', 'xlii-cache'),
+							);
+						
+							foreach($options as $key => $label)
+							{
+								echo '<li style = "width:33%;float:left;">' .	
+										'<label>' .
+											'<input type = "checkbox" name = "post[purge][' . str_replace('.', '][', $key) . ']" value = "on" ' . checked(XLII_Cache_Manager::option('post.purge.' . $key, false), true, false) . ' /> ' . 
+											$label . 
+										'</label>' .
+									 '</li>';
+							}
+							
+						?>
+						</ul>
+						<br style = "clear:left;" />
+						<p class = "description"><small><?php _e('Specified the actions to be executed upon post mutations.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	            <tr>
+	                <th>
+						<?php _e('Feed types', 'xlii-cache'); ?>
+	                </th>
+					<td>
+						<ul>
+						<?php
+							$feeds = $GLOBALS['wp_rewrite']->feeds;
+							$default = get_default_feed();
+						
+							foreach($feeds as $feed)
+							{
+								echo '<li>' .	
+										'<label>' .
+											'<input type = "checkbox" value = "' . $feed . '" name = "post[feed][]" ' . checked(in_array($feed, $opt['post']['feed']), true, false) . ' /> ' . 
+											$feed . ($feed == $default ? ' (' . __('default', 'xlii-cache') . ')' : '') . 
+										'</label>' .
+									 '</li>';
+							}
+							
+						?>
+						</ul>
+						<p class = "description"><small><?php _e('Specify the feed types to flush upon purging.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	            <tr>
+	                <th>
+						<label for = "post-additional"><?php _e('Additional pages', 'xlii-cache'); ?></label>
+	                </th>
+					<td>
+						<textarea cols = "80" rows = "5" name = "post[additional]" id = "post-additional"><?php echo isset($opt['post']['additional']) ? esc_textarea(implode("\n", $opt['post']['additional'])) : ''; ?></textarea>
+						<p class = "description"><small><?php _e('Additional pages to purge upon post purging. Please specify only one page per line.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	        </table>
+
+	        <?php echo $this->_metaboxFooter(); 
+
+			$title  = __('Purge policy - terms', 'xlii-cache');
+			$title .= '<span class = "status"><input type = "checkbox" name = "term[enabled]" id = "term-enable" value = "1" ' . checked(true, XLII_Cache_Manager::option('term.enabled'), false) . ' />' .
+						'<label for = "term-enable"></label>' .
+					  '</span>';
+	
+			echo $this->_metaboxHeader($title);
+			
+			?>
+	        <table class="form-table">
+	            <tr>
+	                <th>
+						<?php _e('Purge', 'xlii-cache'); ?>
+	                </th>
+					<td>
+						<ul>
+						<?php
+							$options = array(
+								'global.posts' => __('Posts page', 'xlii-cache'),
+								'term.children' => __('Child terms', 'xlii-cache'),
+								'post.archive' => __('Posttype archive', 'xlii-cache'),
+								
+								'global.front' => __('Front page', 'xlii-cache'),
+								'term.ancestors' => __('Parent terms', 'xlii-cache'),
+								'feed.postarchive' => __('Posttype archive feed', 'xlii-cache'),
+								
+								'global.all' => __('General cache', 'xlii-cache'),
+								'feed.terms' => __('Term feed', 'xlii-cache'),
+							);
+						
+							foreach($options as $key => $label)
+							{
+								echo '<li style = "width:33%;float:left;">' .	
+										'<label>' .
+											'<input type = "checkbox" name = "term[purge][' . str_replace('.', '][', $key) . ']" value = "on" ' . checked(XLII_Cache_Manager::option('term.purge.' . $key, false), true, false) . ' /> ' . 
+											$label . 
+										'</label>' .
+									 '</li>';
+							}
+							
+						?>
+						</ul>
+						<br style = "clear:left;" />
+						<p class = "description"><small><?php _e('Specified the actions to be executed upon term mutations.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	            <tr>
+	                <th>
+						<?php _e('Feed types', 'xlii-cache'); ?>
+	                </th>
+					<td>
+						<ul>
+						<?php
+							$feeds = $GLOBALS['wp_rewrite']->feeds;
+							$default = get_default_feed();
+						
+							foreach($feeds as $feed)
+							{
+								echo '<li>' .	
+										'<label>' .
+											'<input type = "checkbox" value = "' . $feed . '" name = "term[feed][]" ' . checked(in_array($feed, $opt['term']['feed']), true, false) . ' /> ' . 
+											$feed . ($feed == $default ? ' (' . __('default', 'xlii-cache') . ')' : '') . 
+										'</label>' .
+									 '</li>';
+							}
+							
+						?>
+						</ul>
+						<p class = "description"><small><?php _e('Specify the feed types to flush upon purging.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	            <tr>
+	                <th>
+						<label for = "term-additional"><?php _e('Additional pages', 'xlii-cache'); ?></label>
+	                </th>
+					<td>
+						<textarea cols = "80" rows = "5" name = "term[additional]" id = "term-additional"><?php echo isset($opt['term']['additional']) ? esc_textarea(implode("\n", $opt['term']['additional'])) : ''; ?></textarea>
+						<p class = "description"><small><?php _e('Additional pages to purge upon term purging. Please specify only one page per line.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	        </table>
+	
+	        <?php echo $this->_metaboxFooter(); 
+	
+			$title  = __('Purge policy - comments', 'xlii-cache');
+			$title .= '<span class = "status"><input type = "checkbox" name = "comment[enabled]" id = "comment-enable" value = "1" ' . checked(true, XLII_Cache_Manager::option('comment.enabled'), false) . ' />' .
+						'<label for = "comment-enable"></label>' .
+					  '</span>';
+	
+			echo $this->_metaboxHeader($title);
+			
+			?>
+	        <table class="form-table">
+	            <tr>
+	                <th>
+						<?php _e('Comment types', 'xlii-cache'); ?>
+	                </th>
+					<td>
+						<ul>
+						<?php
+							global $wpdb;
+						
+							$types = $wpdb->get_col('SELECT DISTINCT comment_type FROM ' . $wpdb->comments);
+							$types = array_filter($types);
+							
+							array_unshift($types, 'comment');
+							array_unshift($types, 'pingback');
+							array_unshift($types, 'trackback');
+							
+							$types = array_unique($types);
+							
+							foreach($types as $type)
+							{
+								echo '<li>' .	
+										'<label>' .
+											'<input type = "checkbox" value = "' . $type . '" name = "comment[type][]" ' . checked(in_array($type, $opt['comment']['type']), true, false) . ' /> ' . 
+										 	$type . 
+										'</label>' .
+									 '</li>';
+							}
+							
+						?>
+						</ul>
+						<p class = "description"><small><?php _e('Specify the comment types to allow purgin on.', 'xlii-cache'); ?></small></p>
+					</td>
+	            </tr>
+	        </table>
+	
+	        <?php echo $this->_metaboxFooter(); ?>
+
+			<p class = "submit">
+				<input type = "submit" name = "submit" class = "button-primary" value = "<?php _e('Save', 'xlii-cache'); ?>" />
+			</p>
+		</div>
+	</form>
+</div>

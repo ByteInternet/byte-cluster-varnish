@@ -1,8 +1,8 @@
 # Snelle instructies
 
 1. Download [deze plugin](https://github.com/ByteInternet/byte-cluster-varnish) naar je eigen computer.
-2. Log in op de admin panel van je Wordpress site, ga naar Plugins, voeg toe, en upload de zip file.
-3. Ga naar de plugin pagina en zoek "Varnish Cache". Activeer deze. 
+2. Log in op de admin panel van je Wordpress site
+2. Ga naar Plugins > Nieuwe Plugin > Upload Plugin > Upload de zip file > Klik op "Activeer"
 4. Klaar! Controleer of alles goed werkt. Bij problemen, lees verder.
 
 # Achtergrond
