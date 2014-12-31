@@ -8,6 +8,14 @@
 
 $opt = XLII_Cache_Manager::option();
 
+if(function_exists('session_status'))
+	$session = session_status() === PHP_SESSION_ACTIVE;
+else
+	$session = session_id();
+
+if($session)
+	echo '<div class = "error"><p>' . __('We detected a PHP session running on your enviorment. Please note that sessions cause no-cache headers to be send thus making Varnish obsolete.') . '</p></div>';
+
 ?>
 
 <style type = "text/css">

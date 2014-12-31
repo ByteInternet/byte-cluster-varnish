@@ -37,7 +37,7 @@ abstract class XLII_Cache_Instance extends XLII_Cache_Singleton
 	 */ 
 	public function flush()
 	{
-		return $this->delete(home_url('/*'));
+		return $this->delete(home_url('/.*'));
 	}
 	
 	/**
