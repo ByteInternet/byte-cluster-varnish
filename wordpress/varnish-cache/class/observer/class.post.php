@@ -87,7 +87,7 @@ class XLII_Cache_Post_Observer extends XLII_Cache_Singleton
 		do_action('post_cache_flushed', $post_id, $urls);
 		
 		// Flush child pages
-		if(is_post_type_hierarchical(get_post_type($post_id)) && array_intersect(array('post_title', 'permalink'), $changes))
+		if(is_post_type_hierarchical(get_post_type($post_id)) && (in_array('post_title', $changes) || in_array('permalink', $changes)))
 		{
 			$children = get_posts(array(
 				'fields' => 'ids',

@@ -198,7 +198,7 @@ class XLII_Cache_Term_Observer extends XLII_Cache_Singleton
 		if(XLII_Cache_Manager::option('term.purge.post.archive'))
 		{
 			foreach($post_types as $post_type)
-				$helper->getUrlsPostArchive($urls, $post_id);
+				$helper->getUrlsPostArchive($urls, $post_type);
 		}
 		
 		// -- Feeds
@@ -215,10 +215,10 @@ class XLII_Cache_Term_Observer extends XLII_Cache_Singleton
 		// -- Extend with general urls
 		
 		if(XLII_Cache_Manager::option('term.purge.global.front'))
-			$helper->getUrlsFrontpage($urls, $post_id);
+			$helper->getUrlsFrontpage($urls);
 			
 		if(XLII_Cache_Manager::option('term.purge.global.posts') && in_array('post', $post_types))
-			$helper->getUrlsPostPage($urls, $post_id);
+			$helper->getUrlsPostPage($urls);
 				
 					
 		$helper->getUrlsGlobal($urls)

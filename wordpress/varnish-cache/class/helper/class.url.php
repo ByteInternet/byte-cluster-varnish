@@ -299,7 +299,7 @@ class XLII_Cache_Url_Helper
 			}
 		}
 
-        return $link;
+        return $this;
     }
 
 	/**
@@ -410,7 +410,7 @@ class XLII_Cache_Url_Helper
 	 */
 	public function getUrlsGlobal(array &$urls)
 	{
-		$urls = apply_filters('cache_url_global', $urls, $post_type);
+		$urls = apply_filters('cache_url_global', $urls);
 		
 		return $this;
 	}
