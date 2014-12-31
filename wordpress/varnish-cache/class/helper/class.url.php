@@ -434,9 +434,9 @@ class XLII_Cache_Url_Helper
 			return $this;
 		
 		$urls[] = $base = get_permalink($post_id);
+		$matches = array();
 		
-		$dummy_array_for_php53 = array();
-		if(($post = get_post($post_id)) && ($post_pages_number = preg_match_all('/\<\!\-\-nextpage\-\-\>/', $post->post_content, $dummy_array_for_php53)) > 0) 
+		if(($post = get_post($post_id)) && ($post_pages_number = preg_match_all('/\<\!\-\-nextpage\-\-\>/', $post->post_content, $matches)) > 0) 
 		{
 			global $wp_rewrite;
 
