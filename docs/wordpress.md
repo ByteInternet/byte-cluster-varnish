@@ -159,3 +159,6 @@ wanneer zij zelf de cache dienen te legen. Deze beheerders dienen de
 relatie te begrijpen van de wijzigingen welke zij maken en de scoping
 van de pagina’s welke de cache leegt na het uitvoeren van specifieke
 acties.
+
+# Plugins die optimale werking Varnish verstoren
+* GuiForm: Voegt een no-cache header toe aan iedere pagina.
