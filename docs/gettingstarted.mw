@@ -1,0 +1,47 @@
+= Aan de slag =
+
+Nog even en je site is sneller dan 99% van het internet. Dat voelt goed, toch? Om daar te komen, moet je een paar dingen doen.
+
+== Stap 1: Leer hoe het werkt ==
+
+Varnish zit tussen jouw website en je bezoeker. Varnish bewaart content in een cache en kan deze tot 100x sneller naar je bezoekers sturen.
+
+Dat klinkt mooi! Maar let op, er zit natuurlijk een addertje onder het gras. Niet alle content is geschikt om gecached te worden, zoals bijvoorbeeld gepersonaliseerde of geheime pagina's. In veel gevallen wordt dit door het Byte Varnish Cluster juist gedetecteerd. In sommige gevallen moet je zelf extra instructies geven. We raden dus altijd aan om eerst goed te testen voordat je Varnish activeert!
+
+Om aan de slag te gaan met Varnish, is het erg handig om de HTTP headers te kunnen inzien. Het makkelijkst is om Chrome te gebruiken, dan de Developer Tools te activeren (<code>F12</code> op Windows, <code>Cmd+Opt+i</code> op Mac). Klik op tabblad <code>Network</code>. Refresh (<code>F5</code>) je site. Klik op het eerste request. Klik rechts op mini-tabblad <code>Headers</code>. Hier zie je wat er heen en weer wordt gestuurd tussen jouw browser en de server. [http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/ Meer weten over HTTP headers]?
+
+== Stap 2: Controleer geschiktheid ==
+
+Controleer of je site uberhaupt geschikt is voor caching. In de headers die de server terugstuurt (zie hierboven) mag ''niet'' <code>Cache-control: no-cache</code> of <code>Cache-control: private</code> voorkomen. Gebeurt dit wel, dan is er een aantal mogelijke oorzaken:
+
+# Je bent ingelogd op de backend van je site en daardoor kan er niet gecached worden. Probeer het opnieuw, maar dan zonder cookies (gebruik een &quot;Incognito&quot; venster met Ctrl-Shift-N). Immers, de meeste bezoekers van je site zullen ''niet'' ingelogd zijn.<br />
+# Een externe module van je site gebruikt <code>session_start()</code> van PHP. Deze genereert sowieso een <code>Cache-control: no-cache</code> header. Oplossing: verwijder de module, pas de module aan, of installeer een extra module die de Cache-control header weer (dynamisch) verwijdert. Voor Joomla is sowieso een extra module vereist, zie de instructies verderop.<br />
+# Er is een <code>.htaccess</code> geinstalleerd die een extra header genereert. Kijk of je deze kunt omschrijven.
+
+== Stap 3: Installeer benodigde software ==
+
+De meeste webapplicaties hebben een extra module nodig om correct te kunnen werken. Die zorgt voor twee dingen: allereerst dat de geproduceerde pagina's worden aangemerkt als geschikt voor caching. En ten tweede, dat wanneer de content wijzigt (bijvoorbeeld in de backend) ook de bijbehorende cache-versie wordt bijgewerkt.
+
+We hebben hier instructies voor de meest gebruikte webapplicaties verzameld: [[wordpress.md|Wordpress]], [[drupal.md|Drupal]] en [[joomla.md|Joomla]]. Als je meer exotische software gebruikt, zul je zelf op zoek moeten naar een Varnish module, of er zelf een maken. Zie hiervoor onze [[custom.md|maatwerk instructies]].
+
+== Stap 4: Test de nieuwe software ==
+
+Wanneer je site op een Byte Varnish Cluster staat, kun je eenvoudig de werking van Varnish testen, zonder dat je wijzigingen direct voor de hele wereld hoeft door te voeren. Hiervoor heb je nodig: het '''test IP''', te vinden op het Service Panel. Op het test IP is altijd Varnish actief (in de door jou gekozen modus, zie hieronder).
+
+Je kunt zorgen dat je eigen browser de DNS negeert en het test IP gebruikt, met behulp van [https://www.byte.nl/wiki/DNS#DNS_Caching een lokaal hosts bestand].
+
+Gaat er iets mis met de test? Zie [[custom.md#debuggen|Maatwerk &gt; hoe te debuggen]] voor hulp.
+
+== Stap 5: Activeer Varnish en laat je concurrenten ver achter je ==
+
+Op het Byte Service Panel kun je uit vier modi kiezen:
+
+# Cache niets (alle cache staat uit)<br />
+# Cache enkel static assets (plaatjes, css)<br />
+# Cache dynamisch, geoptimaliseerd voor Joomla/Wordpress/Drupal en maatwerk CMSen<br />
+# Cache alles aggressief (in high traffic/load situaties waarbij men niet in de cms backend hoeft) dus negeer alle cookies, expires en cache headers.
+
+De makkelijke modus is de tweede, hiervoor hoef je normaliter niets te wijzigen.
+
+De modus met het beste resultaat is de derde.
+

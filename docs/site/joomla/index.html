@@ -15,11 +15,6 @@
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/highlight.css">
-        <link href="../site/site/site/css/base.css" rel="stylesheet">
-        <link href="../site/site/site/css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../site/site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link href="../site/site/site/css/highlight.css" rel="stylesheet">
-        <link href="../site/site/site/css/prettify-1.0.css" rel="stylesheet">
         <link href="../site/site/css/base.css" rel="stylesheet">
         <link href="../site/site/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -134,19 +129,81 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
+        <li class="main active"><a href="#snelle-instructies">Snelle instructies</a></li>
+        
+    
+        <li class="main "><a href="#achtergrond">Achtergrond</a></li>
+        
+    
+        <li class="main "><a href="#installatie">Installatie</a></li>
+        
+    
+        <li class="main "><a href="#configuratie">Configuratie</a></li>
+        
+            <li><a href="#algemene-opties">Algemene opties</a></li>
+        
+            <li><a href="#opties-voor-uitsluiten-pagina-caching">Opties voor uitsluiten pagina caching</a></li>
+        
+    
+        <li class="main "><a href="#tips-tricks">Tips &amp; Tricks</a></li>
+        
+            <li><a href="#testen">Testen</a></li>
+        
+            <li><a href="#varnish-cache-legen">Varnish cache legen</a></li>
+        
+            <li><a href="#joomla-caching">Joomla caching</a></li>
+        
+            <li><a href="#htaccess-expire-headers">.htaccess expire headers</a></li>
+        
+    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<p>Installeer twee modules.</p>
+<h1 id="snelle-instructies">Snelle instructies</h1>
 <ol>
-<li>Installeer de “Expires Headers” module (http://extensions.joomla.org/extensions/site-management/browsers-a-web-standards/12785) enable deze via Extensions &gt; Plugin Manager &gt; Zoek op “expires”. Activeer plugin. Zorg dat de “System - Cache” module disabled is.</li>
-<li>Installeer de Speedcluster module voor Joomla. Ga naar extensiebeheer, installeer van URL:  https://raw.githubusercontent.com/ByteInternet/speedcluster-joomla/master/speedcluster-joomla.zip<ul>
-<li>Let op: je hoeft niks in te stellen, deze module staat automatisch goed.</li>
-</ul>
-</li>
+<li>Download de <a href="https://raw.githubusercontent.com/perfectwebteam/bytevarnish/master/pkg_bytevarnish.zip">Byte Varnish extensie voor Joomla!</a></li>
+<li>Installeer de extensie via het extensiebeheer van Joomla</li>
+<li>Klaar! Controleer of alles goed werkt.</li>
 </ol>
-<p>Zorg er bij beide modules wel voor, dat ze als laatste worden uitgevoerd!</p>
+<h1 id="achtergrond">Achtergrond</h1>
+<p>Byte heeft in samenwerking met <a href="http://perfectwebteam.nl">Perfect Web Team</a> een eigen extensie ontwikkeld voor Joomla. Met deze extensie kunnen Joomla sites op het supersnelle Byte Varnish Cluster draaien. De extensie zorgt ervoor dat Joomla de juiste caching headers genereert met TTL (time to live) informatie en dat specifieke pagina's en/of extensies niet worden gecached. Ook zorgt de extensie voor het automatisch legen van de cache voor specifieke pagina's na het aanpassen van een artikel in Joomla en wordt de volledige site cache geleegd na het klikken op de speciale knop daarvoor.</p>
+<h1 id="installatie">Installatie</h1>
+<p>De Byte Varnish extensie bestaat uit twee delen:</p>
+<ol>
+<li>Module; <code>mod_bytevarnish</code></li>
+<li>Plugin; <code>plg_system_bytevarnish</code></li>
+</ol>
+<p>Beide zitten verwerkt in de extensie <code>pkg_bytevarnish.zip</code> dat <a href="https://raw.githubusercontent.com/perfectwebteam/bytevarnish/master/pkg_bytevarnish.zip">hier</a> te downloaden is. Dit zip bestand installeer je in Joomla via <code>Extensies</code> -&gt; <code>Extensiebeheer</code>, tabblad <code>Installeren</code>. Selecteer het zip bestand en klik op <code>Uploaden &amp; installeren</code>. De module en plugin worden nu geïnstalleerd, automatisch geactiveerd en gepubliceerd op de juiste positie. De extensie is nu in werking en de site maakt gebruik van het Byte Varnish Cluster. Je kan de extensie verder naar wens configureren.</p>
+<h1 id="configuratie">Configuratie</h1>
+<p>De extensie is verder naar wens te configureren. Dit kan door de plugin instellingen aan te passen. Hiervoor ga je naar <code>Extensies</code> -&gt; <code>Pluginbeheer</code> waar je zoekt naar de <code>Byte Varnish</code> plugin van type <code>system</code>. Na het openen van de plugin beschik je over de volgende configuratie opties.</p>
+<h2 id="algemene-opties">Algemene opties</h2>
+<h4 id="schakel-bytenl-varnish-in">Schakel Byte.nl Varnish in</h4>
+<p>Hiermee wordt de Byte Varnish caching in- en uitgeschakeld vanuit Joomla. Als de caching is ingeschakeld is er een <code>Cache-control: public</code> HTTP-header actief op de site. Als de caching is uitgeschakeld is dit een <code>Cache-control: no-cache</code> HTTP-header waardoor er geen pagina's meer aan de Varnish cache worden toegevoegd. Pagina's die reeds in de Varnish cache zitten blijven actief totdat deze geleegd worden.</p>
+<p>Standaard waarde: <code>Ja</code></p>
+<h4 id="automatisch-cache-legen">Automatisch cache legen</h4>
+<p>Hiermee wordt het automatisch legen van pagina's uit de Varnish cache na aanpassing van een artikel in- en uitgeschakeld. Als deze functie is ingeschakeld worden de pagina's in de Varnish cache waarop het volledige Joomla artikel en de introtekst zichtbaar is geleegd. De plugin detecteert automatisch om welke pagina's het gaat en zal deze legen in de Varnish cache.</p>
+<p>Standaard waarde: <code>Ja</code></p>
+<h4 id="ttl-max-age-in-minuten">TTL (max-age) in minuten</h4>
+<p>Hier voer je de tijd in minuten in die gebruikt wordt voor de 'houdbaarheid' van een pagina in de Varnish cache. Bij een waarde van <code>60</code> wordt na 60 minuten bij een nieuwe pagina request de pagina opnieuw in de Varnish cache geplaatst. De ingevoerde tijd in minuten wordt door de plugin omgezet in seconden en wordt gebruikt voor de <code>max-age</code> HTTP-header van de site.</p>
+<p>Standaard waarde: <code>60</code></p>
+<h2 id="opties-voor-uitsluiten-pagina-caching">Opties voor uitsluiten pagina caching</h2>
+<p>Standaard zorgt de plugin er voor dat als de bezoeker inlogt er een <code>NO_CACHE</code> cookie wordt geplaatst. Hierdoor zal een ingelogde bezoeker geen pagina's uit de Varnish cache krijgen maar direct van de webserver. Het is goed mogelijk dat daarnaast bepaalde pagina's uitgesloten moeten worden van caching voor alle bezoekers van de website. Denk aan pagina's met dynamische content, waar ingelogd wordt of die beveiligd zijn. De plugin heeft hiervoor diverse opties.</p>
+<h4 id="menu-items-uitsluiten">Menu-items uitsluiten</h4>
+<p>Hiermee kan je specifieke menu-items uitsluiten van caching. Selecteer uit de dropdown één of meerdere menu-items die moeten worden uitgesloten. Op deze pagina's wordt dan de <code>Cache-control: no-cache</code> HTTP-header actief. </p>
+<p>Standaard waarde: <code>-</code></p>
+<h4 id="componenten-uitsluiten">Componenten uitsluiten</h4>
+<p>Hiermee kan je specifieke componenten compleet uitsluiten van caching. Selecteer uit de dropdown één of meerdere componenten die moeten worden uitgesloten. Op deze pagina's wordt dan de <code>Cache-control: no-cache</code> HTTP-header actief. Standaard is <code>com_users</code> hier ingesteld, maar bijvoorbeeld formulier extensies moeten vaak ook voor de juiste werking worden uitgesloten. </p>
+<p>Standaard waarde: <code>com_users</code></p>
+<h1 id="tips-tricks">Tips &amp; Tricks</h1>
+<h2 id="testen">Testen</h2>
+<p>Na het inschakelen van de Varnish cache is het erg belangrijk om je site goed te testen. Werkt het inloggen voor de bezoekers nog? Worden contactformulieren juist verwerkt? Worden reacties geplaatst? Kortom, doorloop alle functionaliteiten van je site en sluit waar nodig pagina's en/of componenten uit van caching. </p>
+<h2 id="varnish-cache-legen">Varnish cache legen</h2>
+<p>Naast de mogelijkheid om de Varnish cache voor de gehele site te legen via het controlepaneel van Byte is dit ook mogelijk vanuit de beheer van Joomla. Klik daarvoor op <code>Purge Varnish Cache</code> in de grijze statusbalk onderaan iedere pagina. Alle pagina's in de Varnish cache worden door deze actie verwijderd.    </p>
+<h2 id="joomla-caching">Joomla caching</h2>
+<p>De Byte Varnish Cache staat los van de caching instellingen van Joomla. Deze kan je ingesteld laten, maar dit kan wellicht tot verwarring zorgen. Na het maken van een site aanpassing kan er een oudere gecachde pagina van Joomla worden opgenomen in de Varnish cache. Voor het juist cachen moet dus eerst de Joomla cache geleegd worden en daarna de Varnish cache, dan weet je zeker dat het juiste wordt opgenomen in de Varnish cache. Door de Joomla caching uit te schakelen weet je zeker dat dit goed gaat en is het legen van zowel de Joomla als de Varnish cache niet nodig. Dit is sowieso raadzaam tijdens het testen van de Varnish cache.</p>
+<h2 id="htaccess-expire-headers">.htaccess expire headers</h2>
+<p>Vergeet niet je <code>.htaccess</code> bestand na te lopen op eventuele <code>mod_expires</code> regels voor de HTTP-headers. Deze zouden voor conflicten kunnen zorgen met de HTTP-headers die de Byte Varnish extensie genereert. Verwijder of pas deze aan als de plugin na installatie niet werkt en je <code>mod_expires</code> regels actief hebt in je <code>.htaccess</code> bestand.</p>
 </div>
             
         </div>
@@ -164,10 +221,6 @@
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
-        <script src="../site/site/site/js/base.js"></script>
-        <script src="../site/site/site/js/bootstrap-3.0.3.min.js"></script>
-        <script src="../site/site/site/js/highlight.pack.js"></script>
-        <script src="../site/site/site/js/prettify-1.0.min.js"></script>
         <script src="../site/site/js/base.js"></script>
         <script src="../site/site/js/bootstrap-3.0.3.min.js"></script>
         <script src="../site/site/js/highlight.pack.js"></script>

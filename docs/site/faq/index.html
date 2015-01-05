@@ -15,11 +15,6 @@
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/highlight.css">
-        <link href="../site/site/site/css/base.css" rel="stylesheet">
-        <link href="../site/site/site/css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../site/site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link href="../site/site/site/css/highlight.css" rel="stylesheet">
-        <link href="../site/site/site/css/prettify-1.0.css" rel="stylesheet">
         <link href="../site/site/css/base.css" rel="stylesheet">
         <link href="../site/site/css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../site/site/css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -164,6 +159,12 @@
         <li class="main "><a href="#kan-iedereen-een-purge-request-sturen-naar-mijn-site">Kan iedereen een purge request sturen naar mijn site?</a></li>
         
     
+        <li class="main "><a href="#werkt-varnish-ook-met-subdomeinen">Werkt Varnish ook met subdomeinen?</a></li>
+        
+    
+        <li class="main "><a href="#werkt-varnish-ook-met-presence-accounts">Werkt Varnish ook met Presence accounts?</a></li>
+        
+    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -193,9 +194,13 @@
 <li>Een PURGE of BAN request doen voor “/.*”  </li>
 </ul>
 <h4 id="hoe-stel-ik-een-ttl-in-voor-specifieke-urls">Hoe stel ik een TTL in voor specifieke URLs?</h4>
-<p>Geef via “cache-control” headers een max-age of s-maxage mee.  </p>
+<p>Geef via "cache-control" headers een max-age of s-maxage mee.  </p>
 <h4 id="kan-iedereen-een-purge-request-sturen-naar-mijn-site">Kan iedereen een purge request sturen naar mijn site?</h4>
 <p>Ja, maar deze zullen genegeerd worden. Alleen interne purge requests (van hetzelfde cluster) zullen afgehandeld worden en er voor zorgen dat de cache geleegd wordt.</p>
+<h4 id="werkt-varnish-ook-met-subdomeinen">Werkt Varnish ook met subdomeinen?</h4>
+<p>Nee, enkel "www.domein" en "domein" kunnen worden gecached. Andere subdomeinen werken wel, maar worden niet gecached. Het is wel weer mogelijk indien er een apart hostingpakket voor een subdomein wordt aangevraagd.</p>
+<h4 id="werkt-varnish-ook-met-presence-accounts">Werkt Varnish ook met Presence accounts?</h4>
+<p>Ja!</p>
 </div>
             
         </div>
@@ -213,10 +218,6 @@
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
-        <script src="../site/site/site/js/base.js"></script>
-        <script src="../site/site/site/js/bootstrap-3.0.3.min.js"></script>
-        <script src="../site/site/site/js/highlight.pack.js"></script>
-        <script src="../site/site/site/js/prettify-1.0.min.js"></script>
         <script src="../site/site/js/base.js"></script>
         <script src="../site/site/js/bootstrap-3.0.3.min.js"></script>
         <script src="../site/site/js/highlight.pack.js"></script>
