@@ -24,7 +24,7 @@ Omdat Varnish tussen de webservers en de bezoeker staat is het niet wenselijk da
 
 Zorg dat ```zlib.output_compression``` uitgeschakeld staat op het servicepanel.
 
-1. Ga naar ons Servicepanel op https://servicepanel.byte.nl
+1. Ga naar ons [Servicepanel](https://service.byte.nl)
 2. Klik op de tab Instellingen. Klik op de knop PHP.
 3. Zet ```zlib.output_compression``` op 'default' of 'off'.
 4. Klik op 'Instellingen opslaan'.
