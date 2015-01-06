@@ -12,11 +12,21 @@ Om aan de slag te gaan met Varnish, is het erg handig om de HTTP headers te kunn
 
 ## Stap 2: Controleer geschiktheid
 
+### Cache headers
 Controleer of je site uberhaupt geschikt is voor caching. In de headers die de server terugstuurt (zie hierboven) mag *niet* ```Cache-control: no-cache``` of ```Cache-control: private``` voorkomen. Gebeurt dit wel, dan is er een aantal mogelijke oorzaken:
 
 1. Je bent ingelogd op de backend van je site en daardoor kan er niet gecached worden. Probeer het opnieuw, maar dan zonder cookies (gebruik een "Incognito" venster met Ctrl-Shift-N). Immers, de meeste bezoekers van je site zullen _niet_ ingelogd zijn.
 2. Een externe module van je site gebruikt ```session_start()``` van PHP. Deze genereert sowieso een ```Cache-control: no-cache``` header. Oplossing: verwijder de module, pas de module aan, of installeer een extra module die de Cache-control header weer (dynamisch) verwijdert. Voor Joomla is sowieso een extra module vereist, zie de instructies verderop.
 3. Er is een ```.htaccess``` geinstalleerd die een extra header genereert. Kijk of je deze kunt omschrijven.
+
+### Content-Encoding
+Omdat Varnish tussen de webservers en de bezoeker staat is het niet wenselijk dat de webservers alle content gzippen, dit is alleen nuttig tussen Varnish en de bezoeker van de site. Daarnaast zal het gzippen van content in sommige gevallen tot foutmeldingen van Varnish leiden.
+
+Zorg dat ```zlib.output_compression``` uitgeschakeld staat op het servicepanel.
+1. Ga naar ons Servicepanel op https://servicepanel.byte.nl
+2. Klik op de tab Instellingen. Klik op de knop PHP.
+3. Zet ```zlib.output_compression``` op 'default' of 'off'.
+4. Klik op 'Instellingen opslaan'.
 
 ## Stap 3: Installeer benodigde software
 
