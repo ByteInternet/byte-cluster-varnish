@@ -143,11 +143,21 @@
 <p>Dat klinkt mooi! Maar let op, er zit natuurlijk een addertje onder het gras. Niet alle content is geschikt om gecached te worden, zoals bijvoorbeeld gepersonaliseerde of geheime pagina's. In veel gevallen wordt dit door het Byte Varnish Cluster juist gedetecteerd. In sommige gevallen moet je zelf extra instructies geven. We raden dus altijd aan om eerst goed te testen voordat je Varnish activeert!</p>
 <p>Om aan de slag te gaan met Varnish, is het erg handig om de HTTP headers te kunnen inzien. Het makkelijkst is om Chrome te gebruiken, dan de Developer Tools te activeren (<code>F12</code> op Windows, <code>Cmd+Opt+i</code> op Mac). Klik op tabblad <code>Network</code>. Refresh (<code>F5</code>) je site. Klik op het eerste request. Klik rechts op mini-tabblad <code>Headers</code>. Hier zie je wat er heen en weer wordt gestuurd tussen jouw browser en de server. <a href="http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/">Meer weten over HTTP headers</a>?</p>
 <h2 id="stap-2-controleer-geschiktheid">Stap 2: Controleer geschiktheid</h2>
+<h3 id="cache-headers">Cache headers</h3>
 <p>Controleer of je site uberhaupt geschikt is voor caching. In de headers die de server terugstuurt (zie hierboven) mag <em>niet</em> <code>Cache-control: no-cache</code> of <code>Cache-control: private</code> voorkomen. Gebeurt dit wel, dan is er een aantal mogelijke oorzaken:</p>
 <ol>
 <li>Je bent ingelogd op de backend van je site en daardoor kan er niet gecached worden. Probeer het opnieuw, maar dan zonder cookies (gebruik een "Incognito" venster met Ctrl-Shift-N). Immers, de meeste bezoekers van je site zullen <em>niet</em> ingelogd zijn.</li>
 <li>Een externe module van je site gebruikt <code>session_start()</code> van PHP. Deze genereert sowieso een <code>Cache-control: no-cache</code> header. Oplossing: verwijder de module, pas de module aan, of installeer een extra module die de Cache-control header weer (dynamisch) verwijdert. Voor Joomla is sowieso een extra module vereist, zie de instructies verderop.</li>
 <li>Er is een <code>.htaccess</code> geinstalleerd die een extra header genereert. Kijk of je deze kunt omschrijven.</li>
+</ol>
+<h3 id="content-encoding">Content-Encoding</h3>
+<p>Omdat Varnish tussen de webservers en de bezoeker staat is het niet wenselijk dat de webservers alle content gzippen, dit is alleen nuttig tussen Varnish en de bezoeker van de site. Daarnaast zal het gzippen van content in sommige gevallen tot foutmeldingen van Varnish leiden.</p>
+<p>Zorg dat <code>zlib.output_compression</code> uitgeschakeld staat op het servicepanel.</p>
+<ol>
+<li>Ga naar ons <a href="https://service.byte.nl">Servicepanel</a></li>
+<li>Klik op de tab Instellingen. Klik op de knop PHP.</li>
+<li>Zet <code>zlib.output_compression</code> op 'default' of 'off'.</li>
+<li>Klik op 'Instellingen opslaan'.</li>
 </ol>
 <h2 id="stap-3-installeer-benodigde-software">Stap 3: Installeer benodigde software</h2>
 <p>De meeste webapplicaties hebben een extra module nodig om correct te kunnen werken. Die zorgt voor twee dingen: allereerst dat de geproduceerde pagina's worden aangemerkt als geschikt voor caching. En ten tweede, dat wanneer de content wijzigt (bijvoorbeeld in de backend) ook de bijbehorende cache-versie wordt bijgewerkt.</p>
