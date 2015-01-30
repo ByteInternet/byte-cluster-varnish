@@ -41,7 +41,7 @@ abstract class XLII_Cache_Instance extends XLII_Cache_Singleton
 	{
 		// Get all WPML domains
 		if ( function_exists('icl_object_id') ) {
-			$success = false;
+			$success = true;
 			foreach(icl_get_languages() as $lang) {
 				$success = ($this->delete($lang['url'] . '/.*') && $success ? true : false);
 			}
