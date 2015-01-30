@@ -43,7 +43,7 @@ abstract class XLII_Cache_Instance extends XLII_Cache_Singleton
 		if ( function_exists('icl_object_id') ) {
 			$success = true;
 			foreach(icl_get_languages() as $lang) {
-				$success = ($this->delete($lang['url'] . '/.*') && $success ? true : false);
+				$success = ((substr($lang['url'], -1) === '/' ? $this->delete(substr($lang['url'], 0, -1) . '/.*') : $this->delete($lang['url'] . '/.*')) && $success ? true : false);
 			}
 			return $success;
 		}
