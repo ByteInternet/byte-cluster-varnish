@@ -164,7 +164,7 @@ class XLII_Cache_Manager extends XLII_Cache_Singleton
 		{
 			$admin_bar->add_menu( array( 
 				'id' => 'varnish-cache',
-				'title' => __('Unable to decect cache', 'xlii-cache')
+				'title' => __('Unable to detect cache', 'xlii-cache')
 			));	
 		}
 	
