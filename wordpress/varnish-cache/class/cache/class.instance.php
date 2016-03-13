@@ -32,12 +32,24 @@ abstract class XLII_Cache_Instance extends XLII_Cache_Singleton
 	
 	/**
 	 * Flush the entire cache.
+	 *
+	 * When WPML is activated, all WPML domains are gathered and flushed one by one
 	 * 
 	 * @return	bool
 	 */ 
 	public function flush()
 	{
-		return $this->delete(home_url('/.*'));
+		// Get all WPML domains
+		if ( function_exists('icl_object_id') ) {
+			$success = true;
+			foreach(icl_get_languages() as $lang) {
+				$success = ((substr($lang['url'], -1) === '/' ? $this->delete(substr($lang['url'], 0, -1) . '/.*') : $this->delete($lang['url'] . '/.*')) && $success ? true : false);
+			}
+			return $success;
+		}
+		else {
+			return $this->delete(home_url('/.*'));
+		}
 	}
 	
 	/**
